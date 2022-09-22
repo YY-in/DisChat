@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">DisChat</string>
+    <string name="register">Register</string>
+    <string name="register_zh">注册</string>
+    <string name="login">Login</string>
+    <string name="login_zh">登录</string>
+    <string name="registerTip_zh">请输入电话号码或电子邮件地址</string>
+    <string name="phoneNumber_zh">电话号码</string>
+    <string name="email">电子邮件</string>
+
+
+
+</resources>
