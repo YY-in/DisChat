@@ -1,4 +1,4 @@
-package com.yyin.dischat.login
+package com.yyin.dischat.ui.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
