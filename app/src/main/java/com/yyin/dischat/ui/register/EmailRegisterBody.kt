@@ -5,5 +5,5 @@ import androidx.compose.material.Text
 
 @Composable
 fun EmailRegisterBody(){
-    Text(text = "来自邮箱")
+    RegisterTextField(text = "邮箱地址" , onTextChange = { }, onClickCodeButton = { })
 }
