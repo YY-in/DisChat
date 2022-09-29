@@ -7,6 +7,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -16,6 +17,9 @@ import androidx.compose.ui.text.font.FontWeight.Companion.W500
 import androidx.compose.ui.unit.dp
 import com.yyin.dischat.R
 import com.yyin.dischat.ui.theme.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+
 
 
 @Composable
@@ -24,7 +28,7 @@ fun TopRegisterBar() {
         backgroundColor = BlueGray900,
         title = {
             Text(
-                text = stringResource(R.string.register_zh),
+                text = stringResource(R.string.register),
                 fontWeight = FontWeight.Bold,
                 color = White,
                 modifier = Modifier.alpha(ContentAlpha.medium)
@@ -47,7 +51,6 @@ fun TopRegisterBar() {
 @Composable
 fun RegisterTextField(
     text: String,
-    onTextChange: (String) -> Unit,
     onClickCodeButton: () -> Unit
 ) {
     Column(
@@ -66,13 +69,12 @@ fun RegisterTextField(
 
         PhoneRegisterTextField(
             text = text,
-            onTextChange = onTextChange,
             onClickCodeButton = onClickCodeButton
         )
 
 
         Text(
-            text = stringResource(R.string.privacy_policy_zh),
+            text = stringResource(R.string.privacy_policy),
             style = MaterialTheme.typography.caption,
             color = Teal200,
             modifier = Modifier
@@ -83,11 +85,9 @@ fun RegisterTextField(
 
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun PhoneRegisterTextField(
     text: String,
-    onTextChange: (String) -> Unit,
     onClickCodeButton: () -> Unit
 ) {
     var countryCode by remember {
@@ -97,11 +97,14 @@ fun PhoneRegisterTextField(
     var expanded by remember {
         mutableStateOf(true)
     }
-    if (text == "手机号码"){
+
+    if (text == stringResource(R.string.phone)){
         expanded = true
-    }else if(text == "邮箱地址"){
+    }else if(text == stringResource(R.string.email)){
         expanded = false
     }
+
+    var input by rememberSaveable { mutableStateOf("") }
 
     Row {
         AnimatedVisibility(
@@ -125,16 +128,18 @@ fun PhoneRegisterTextField(
             }
         }
         TextField(
-            value = text,
-            onValueChange = onTextChange,
+            placeholder= {Text(text=text, color = White.copy(ContentAlpha.medium))},
+            value = input,
+            onValueChange = {input = it},
             maxLines = 1,
             shape = RoundedCornerShape(10),
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = TextFieldColor,
-                textColor = White.copy(ContentAlpha.medium)
+                textColor = White.copy(ContentAlpha.high)
             ),
             modifier = Modifier
-                .height(50.dp).fillMaxWidth()
+                .height(50.dp)
+                .fillMaxWidth()
 
         )
 

@@ -44,7 +44,7 @@ fun ButtonColumn(modifier: Modifier =Modifier) {
             modifier = modifier.fillMaxWidth()
         ) {
 
-            Text(stringResource(R.string.register_zh))
+            Text(stringResource(R.string.register))
         }
         Button(
             onClick = { /*TODO*/ },
@@ -55,7 +55,7 @@ fun ButtonColumn(modifier: Modifier =Modifier) {
             modifier = modifier
                 .fillMaxWidth()
         ) {
-            Text(stringResource(R.string.login_zh))
+            Text(stringResource(R.string.login))
 
         }
     }
@@ -65,7 +65,7 @@ fun ButtonColumn(modifier: Modifier =Modifier) {
 fun WelcomeText() {
     Column() {
         Text(
-            "欢迎来到DisChat",
+            text = stringResource(R.string.welcomeTitle),
             style = MaterialTheme.typography.h5,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold,
@@ -75,7 +75,7 @@ fun WelcomeText() {
         )
         CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
             Text(
-                "加入DisChat，与社区和好友畅聊",
+                text = stringResource(R.string.welcomeOverline),
                 color= White,
                 style = MaterialTheme.typography.overline,
                 textAlign = TextAlign.Center,

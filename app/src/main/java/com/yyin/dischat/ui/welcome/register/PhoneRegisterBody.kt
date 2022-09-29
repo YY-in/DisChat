@@ -1,11 +1,13 @@
 package com.yyin.dischat.ui.welcome.register
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.yyin.dischat.R
 
 @Preview
 @Composable
 fun PhoneRegisterBody(){
-   RegisterTextField(text = "手机号码" , onTextChange = { }, onClickCodeButton = { })
+   RegisterTextField(text = stringResource(R.string.phone) , onClickCodeButton = { })
 }
 

@@ -1,20 +1,21 @@
 <resources>
+    <string name="register">注册</string>
+    <string name="login">登录</string>
+    <string name="registerTip">请输入电话号码或电子邮件地址</string>
+    <string name="loginHint">电话号码或电子邮件地址</string>
+    <string name="phone">电话号码</string>
+    <string name="email">邮件地址</string>
+    <string name="privacy_policy">查看我们的隐私政策</string>
+    <string name="next">下一步</string>
+    <string name="loginWelcome">欢迎回来!</string>
+    <string name="loginWelcomeCaption">很高兴再次见到你!</string>
+    <string name="forgetKey">忘记密码？</string>
+    <string name="useKeyManager">使用密码管理器？</string>
+    <string name="accountMessage">账号信息</string>
+    <string name="welcomeTitle">欢迎来到DisChat</string>
+    <string name="welcomeOverline">加入DisChat，与社区和好友畅聊</string>
+    <string name="passwordHint">请输入密码</string>
     <string name="app_name">DisChat</string>
-    <string name="register">Register</string>
-    <string name="register_zh">注册</string>
-    <string name="login">Login</string>
-    <string name="login_zh">登录</string>
-    <string name="registerTip_zh">请输入电话号码或电子邮件地址</string>
-    <string name="loginHint_zh">电话号码或电子邮件地址</string>
-    <string name="phoneNumber_zh">电话号码</string>
-    <string name="email_zh">电子邮件</string>
-    <string name="privacy_policy_zh">查看我们的隐私政策</string>
-    <string name="next_zh">下一步</string>
-    <string name="loginWelcome_zh">欢迎回来!</string>
-    <string name="loginWelcomeCaption_zh">很高兴再次见到你!</string>
-    <string name="forgetKey_zh">忘记密码？</string>
-    <string name="useKeyManager_zh">使用密码管理器？</string>
-
 
 
 </resources>

@@ -12,7 +12,6 @@ import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
@@ -31,11 +30,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 
-@Preview
-@Composable
-fun LoginCard() {
-
-}
 
 @Composable
 fun LoginButton() {
@@ -50,14 +44,14 @@ fun LoginButton() {
             .padding(20.dp)
     ) {
 
-        Text(stringResource(R.string.login_zh))
+        Text(stringResource(R.string.login))
     }
 }
 
 @Composable
 fun LoginText() {
     Text(
-        text = stringResource(R.string.loginWelcome_zh),
+        text = stringResource(R.string.loginWelcome),
         style = MaterialTheme.typography.h5,
         fontWeight = W900,
         color = White,
@@ -67,7 +61,7 @@ fun LoginText() {
             .padding(top = 15.dp, bottom = 8.dp)
     )
     Text(
-        text = stringResource(R.string.loginWelcomeCaption_zh),
+        text = stringResource(R.string.loginWelcomeCaption),
         style = MaterialTheme.typography.caption,
         fontWeight = W900,
         color = White,
@@ -84,7 +78,7 @@ fun TopLoginBar() {
         backgroundColor = BlueGray900,
         title = {
             Text(
-                text = stringResource(R.string.login_zh),
+                text = stringResource(R.string.login),
                 fontWeight = FontWeight.Bold,
                 color = White,
                 modifier = Modifier.alpha(ContentAlpha.medium)
@@ -108,23 +102,19 @@ fun TopLoginBar() {
 
 @Composable
 fun LoginTextField(
-    title: String,
-    text: String,
-    onTextChange: (String) -> Unit,
-    modifier: Modifier = Modifier
 ) {
-
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp)
     ) {
+        var account by rememberSaveable { mutableStateOf("") }
         var password by rememberSaveable { mutableStateOf("") }
         var passwordHidden by rememberSaveable { mutableStateOf(true) }
 
         Text(
-            text = title,
-            style = MaterialTheme.typography.overline,
+            text = stringResource(R.string.accountMessage),
+            style = MaterialTheme.typography.caption,
             fontWeight = W500,
             color = White,
             modifier = Modifier
@@ -133,22 +123,24 @@ fun LoginTextField(
         )
 
         TextField(
-            value = text,
-            onValueChange = onTextChange,
+            placeholder = { Text(stringResource(R.string.loginHint),color = White.copy(ContentAlpha.medium)) },
+            value = account,
+            onValueChange = { account = it },
             maxLines = 1,
             shape = RoundedCornerShape(10),
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = TextFieldColor,
-                textColor = White.copy(ContentAlpha.medium)
+                textColor = White.copy(ContentAlpha.high)
             ),
-            modifier = modifier
-                .padding(bottom = 8.dp)
+            modifier = Modifier
+                .padding(bottom = 20.dp)
                 .fillMaxWidth()
                 .height(50.dp),
         )
 
 
         TextField(
+            placeholder = { Text(stringResource(R.string.passwordHint),color=White.copy(ContentAlpha.medium)) },
             value = password,
             onValueChange = { password = it },
             singleLine = true,
@@ -160,7 +152,11 @@ fun LoginTextField(
                     val visibilityIcon =
                         if (passwordHidden) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
                     val description = if (passwordHidden) "显示密码" else "隐藏密码"
-                    Icon(imageVector = visibilityIcon, contentDescription = description, tint = Color.White.copy(ContentAlpha.medium))
+                    Icon(
+                        imageVector = visibilityIcon,
+                        contentDescription = description,
+                        tint = Color.White.copy(ContentAlpha.high)
+                    )
                 }
             },
             shape = RoundedCornerShape(10),
@@ -168,13 +164,13 @@ fun LoginTextField(
                 backgroundColor = TextFieldColor,
                 textColor = White.copy(ContentAlpha.medium)
             ),
-            modifier = modifier
-                .padding(bottom = 8.dp)
+            modifier = Modifier
+                .padding(bottom = 20.dp)
                 .fillMaxWidth()
                 .height(50.dp),
         )
         Text(
-            text = stringResource(R.string.forgetKey_zh),
+            text = stringResource(R.string.forgetKey),
             style = MaterialTheme.typography.caption,
             color = Teal200,
             modifier = Modifier
@@ -182,12 +178,12 @@ fun LoginTextField(
                 .padding(bottom = 8.dp)
         )
         Text(
-            text = stringResource(R.string.useKeyManager_zh),
+            text = stringResource(R.string.useKeyManager),
             style = MaterialTheme.typography.caption,
             color = Teal200,
             modifier = Modifier
                 .alpha(ContentAlpha.high)
-                .padding(bottom = 8.dp)
+
         )
 
 

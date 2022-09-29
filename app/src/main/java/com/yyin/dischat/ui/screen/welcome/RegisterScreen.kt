@@ -30,7 +30,7 @@ fun RegisterCard() {
             modifier = Modifier.fillMaxSize()
         ) {
             Text(
-                text = stringResource(R.string.registerTip_zh),
+                text = stringResource(R.string.registerTip),
                 style = MaterialTheme.typography.h5,
                 fontWeight = FontWeight.W900,
                 color = White,
@@ -55,7 +55,7 @@ fun RegisterCard() {
                     .fillMaxWidth()
                     .padding(20.dp)
             ) {
-                Text(stringResource(R.string.next_zh))
+                Text(stringResource(R.string.next))
             }
         }
 

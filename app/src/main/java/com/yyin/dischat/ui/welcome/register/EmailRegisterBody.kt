@@ -1,8 +1,10 @@
 package com.yyin.dischat.ui.welcome.register
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.yyin.dischat.R
 
 @Composable
 fun EmailRegisterBody(){
-    RegisterTextField(text = "邮箱地址" , onTextChange = { }, onClickCodeButton = { })
+    RegisterTextField(text = stringResource(R.string.email) , onClickCodeButton = { })
 }

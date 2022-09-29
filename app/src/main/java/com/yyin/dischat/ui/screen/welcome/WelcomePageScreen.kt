@@ -1,4 +1,4 @@
-package com.yyin.dischat.ui.screen
+package com.yyin.dischat.ui.screen.welcome
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
