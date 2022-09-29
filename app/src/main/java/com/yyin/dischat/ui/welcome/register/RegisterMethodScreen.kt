@@ -1,7 +1,6 @@
-package com.yyin.dischat.ui.register
+package com.yyin.dischat.ui.welcome.register
 
 import androidx.compose.runtime.Composable
-import com.yyin.dischat.R
 
 
 enum class RegisterMethodScreen(

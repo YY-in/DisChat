@@ -1,4 +1,4 @@
-package com.yyin.dischat.ui.login
+package com.yyin.dischat.ui.welcome
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -27,11 +28,12 @@ fun DisplayBoard(modifier: Modifier) {
         modifier = modifier
             .fillMaxWidth()
             .wrapContentWidth(Alignment.CenterHorizontally)
+            .scale(1.2f)
     )
 }
 
 @Composable
-fun ButtonColumn(modifier: Modifier) {
+fun ButtonColumn(modifier: Modifier =Modifier) {
     Column {
         Button(
             onClick = { /*TODO*/ },
@@ -64,7 +66,7 @@ fun WelcomeText() {
     Column() {
         Text(
             "欢迎来到DisChat",
-            style = MaterialTheme.typography.subtitle1,
+            style = MaterialTheme.typography.h5,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold,
             color = White,
@@ -84,16 +86,16 @@ fun WelcomeText() {
 }
 
 @Composable
-fun DisplayLogo() {
+fun DisplayLogo(modifier: Modifier=Modifier) {
     Row() {
-
         Image(
             painterResource(
                 R.drawable.dischat_slogon
             ),
-            contentDescription = "Slogon",
-            modifier = Modifier
+            contentDescription = "Logon",
+            modifier = modifier
                 .fillMaxWidth()
+                .scale(1.5f)
         )
 
     }
@@ -110,7 +112,7 @@ fun PreviewWelcomeCard() {
         Spacer(modifier = Modifier.paddingFromBaseline(40.dp, 30.dp))
         WelcomeText()
         Spacer(modifier = Modifier.paddingFromBaseline(20.dp, 20.dp))
-        ButtonColumn(modifier = Modifier)
+        ButtonColumn(modifier = Modifier.padding(horizontal = 20.dp))
     }
 
 

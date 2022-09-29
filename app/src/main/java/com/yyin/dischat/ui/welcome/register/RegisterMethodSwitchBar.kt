@@ -1,4 +1,4 @@
-package com.yyin.dischat.ui.register
+package com.yyin.dischat.ui.welcome.register
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
