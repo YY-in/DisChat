@@ -16,6 +16,7 @@
     <string name="welcomeOverline">加入DisChat，与社区和好友畅聊</string>
     <string name="passwordHint">请输入密码</string>
     <string name="app_name">DisChat</string>
+    <string name="chat_title">!@#$</string>
 
 
 </resources>
