@@ -90,7 +90,7 @@ fun DisplayLogo(modifier: Modifier=Modifier) {
     Row() {
         Image(
             painterResource(
-                R.drawable.dischat_slogon
+                R.drawable.dischat_logo
             ),
             contentDescription = "Logon",
             modifier = modifier
