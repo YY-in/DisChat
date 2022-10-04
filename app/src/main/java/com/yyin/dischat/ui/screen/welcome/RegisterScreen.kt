@@ -12,8 +12,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.yyin.dischat.R
-import com.yyin.dischat.ui.welcome.register.SwitchBar
-import com.yyin.dischat.ui.welcome.register.TopRegisterBar
+import com.yyin.dischat.ui.component.register.SwitchBar
+import com.yyin.dischat.ui.component.register.TopRegisterBar
 import com.yyin.dischat.ui.theme.DarkColor
 import com.yyin.dischat.ui.theme.Indigo700
 import com.yyin.dischat.ui.theme.White

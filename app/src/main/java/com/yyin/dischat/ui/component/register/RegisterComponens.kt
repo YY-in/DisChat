@@ -1,4 +1,4 @@
-package com.yyin.dischat.ui.welcome.register
+package com.yyin.dischat.ui.component.register
 
 import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
