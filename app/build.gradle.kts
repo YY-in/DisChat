@@ -138,6 +138,12 @@ android {
 
 dependencies {
     implementation(project(":overlapping-panels-compose"))
+    implementation(project(":partialgen"))
+    ksp(project(":partialgen"))
+
+    implementation(project(":enumgetter"))
+    ksp(project(":enumgetter"))
+
 
     Dependencies.Koin(this)
     Dependencies.Ktor(this)

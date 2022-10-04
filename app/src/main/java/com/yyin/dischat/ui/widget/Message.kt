@@ -23,8 +23,8 @@ import androidx.compose.ui.unit.sp
 import com.yyin.dischat.BuildConfig
 import com.yyin.dischat.R
 import com.yyin.dischat.ui.component.basic.AsyncImageLoader
-import com.yyin.dischat.ui.util.ContentAlpha
-import com.yyin.dischat.ui.util.ProvideContentAlpha
+import com.yyin.dischat.util.ContentAlpha
+import com.yyin.dischat.util.ProvideContentAlpha
 
 // 消息UI组件定位模版
 @Composable
