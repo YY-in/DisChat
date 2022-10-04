@@ -1,3 +1,6 @@
 rootProject.name = "DisChat"
 include ':app'
 include ':overlapping-panels-compose'
+include ':partialgen'
+include ':ksp-util'
+include ':enumgetter'
