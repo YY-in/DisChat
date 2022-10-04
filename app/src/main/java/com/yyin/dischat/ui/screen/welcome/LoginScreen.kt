@@ -8,10 +8,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.yyin.dischat.ui.theme.DarkColor
-import com.yyin.dischat.ui.welcome.login.LoginButton
-import com.yyin.dischat.ui.welcome.login.LoginText
-import com.yyin.dischat.ui.welcome.login.LoginTextField
-import com.yyin.dischat.ui.welcome.login.TopLoginBar
+import com.yyin.dischat.ui.component.login.LoginButton
+import com.yyin.dischat.ui.component.login.LoginText
+import com.yyin.dischat.ui.component.login.LoginTextField
+import com.yyin.dischat.ui.component.login.TopLoginBar
 
 @Preview
 @Composable

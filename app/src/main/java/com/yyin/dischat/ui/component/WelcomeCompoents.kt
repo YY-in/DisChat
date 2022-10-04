@@ -1,4 +1,4 @@
-package com.yyin.dischat.ui.welcome
+package com.yyin.dischat.ui.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*

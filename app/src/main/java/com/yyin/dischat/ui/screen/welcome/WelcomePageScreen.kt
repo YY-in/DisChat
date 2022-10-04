@@ -10,10 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.yyin.dischat.ui.theme.DarkColor
-import com.yyin.dischat.ui.welcome.ButtonColumn
-import com.yyin.dischat.ui.welcome.DisplayBoard
-import com.yyin.dischat.ui.welcome.DisplayLogo
-import com.yyin.dischat.ui.welcome.WelcomeText
+import com.yyin.dischat.ui.component.ButtonColumn
+import com.yyin.dischat.ui.component.DisplayBoard
+import com.yyin.dischat.ui.component.DisplayLogo
+import com.yyin.dischat.ui.component.WelcomeText
 
 @Preview
 @Composable
