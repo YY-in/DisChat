@@ -137,6 +137,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":simpleast-compose"))
     implementation(project(":overlapping-panels-compose"))
     implementation(project(":partialgen"))
     ksp(project(":partialgen"))
