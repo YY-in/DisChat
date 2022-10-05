@@ -6,6 +6,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -24,13 +25,11 @@ import androidx.compose.runtime.setValue
 
 @Composable
 fun TopRegisterBar() {
-    TopAppBar(
-        backgroundColor = BlueGray900,
+    SmallTopAppBar(
         title = {
             Text(
                 text = stringResource(R.string.register),
                 fontWeight = FontWeight.Bold,
-                color = White,
                 modifier = Modifier.alpha(ContentAlpha.medium)
             )
         },
@@ -39,7 +38,7 @@ fun TopRegisterBar() {
                 Icon(
                     Icons.Filled.ArrowBack,
                     contentDescription = "return",
-                    tint = White.copy(alpha = ContentAlpha.medium)
+                    tint = LocalContentColor.current.copy(alpha = ContentAlpha.medium),
                 )
             }
         },
@@ -61,7 +60,7 @@ fun RegisterTextField(
             text = text,
             style = MaterialTheme.typography.overline,
             fontWeight = W500,
-            color = White,
+            color = MaterialTheme.colors.onSurface,
             modifier = Modifier
                 .alpha(ContentAlpha.medium)
                 .padding(bottom = 10.dp, top = 20.dp)
@@ -76,7 +75,7 @@ fun RegisterTextField(
         Text(
             text = stringResource(R.string.privacy_policy),
             style = MaterialTheme.typography.caption,
-            color = Teal200,
+            color = MaterialTheme.colors.onSurface,
             modifier = Modifier
                 .alpha(ContentAlpha.high)
                 .padding(top = 10.dp)
@@ -116,8 +115,8 @@ fun PhoneRegisterTextField(
         ) {
             Button(
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = TextFieldColor,
-                    contentColor = White.copy(ContentAlpha.high)
+                    backgroundColor = MaterialTheme.colors.surface,
+                    contentColor = LocalContentColor.current.copy(alpha = ContentAlpha.high),
                 ),
                 onClick = onClickCodeButton,
                 modifier = Modifier
@@ -128,14 +127,14 @@ fun PhoneRegisterTextField(
             }
         }
         TextField(
-            placeholder= {Text(text=text, color = White.copy(ContentAlpha.medium))},
+            placeholder= {Text(text=text)},
             value = input,
             onValueChange = {input = it},
             maxLines = 1,
             shape = RoundedCornerShape(10),
             colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = TextFieldColor,
-                textColor = White.copy(ContentAlpha.high)
+                backgroundColor = MaterialTheme.colors.surface,
+                textColor =  LocalContentColor.current.copy(alpha = ContentAlpha.high)
             ),
             modifier = Modifier
                 .height(50.dp)

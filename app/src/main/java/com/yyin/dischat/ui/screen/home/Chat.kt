@@ -82,32 +82,33 @@ fun ChatScreen(viewModel: ChatViewModel = getViewModel()) {
                 .padding(paddingValues),
             tonalElevation = 2.dp
         ) {
-            ChatScreenLoaded(
-                messages = listOf(
-                    DomainMessageMemberJoin(
-                        id = 1,
-                        channelId = 1,
-                        timestamp = Clock.System.now(),
-                        content = "Test Mf",
-                        author = DomainUserPublic(
-                            id = 12,
-                            username = "YYin",
-                            discriminator = "A kotlin developer",
-                            bot = false,
-                            bio = "hi yo",
-                            flags = 1,
-                            pronouns = "he/him",
-                            avatarUrl = "https://qiniu.yyin.top/mybatisplus.png"
-                        ),
-                    )
-                ) ,
-                currentUserId = 12,
-                channelName= "Test",
-                userMessage = "Test 123",
-                sendEnabled = true,
-                onUserMessageUpdate= {},
-                onUserMessageSend={},
-            )
+//            ChatScreenLoaded(
+//                messages = listOf(
+//                    DomainMessageMemberJoin(
+//                        id = 1,
+//                        channelId = 1,
+//                        timestamp = Clock.System.now(),
+//                        content = "Test Mf",
+//                        author = DomainUserPublic(
+//                            id = 12,
+//                            username = "YYin",
+//                            discriminator = "A kotlin developer",
+//                            bot = false,
+//                            bio = "hi yo",
+//                            flags = 1,
+//                            pronouns = "he/him",
+//                            avatarUrl = "https://qiniu.yyin.top/mybatisplus.png"
+//                        ),
+//                    )
+//                ) ,
+//                currentUserId = 12,
+//                channelName= "Test",
+//                userMessage = "Helle DisChat From YYin",
+//                sendEnabled = true,
+//                onUserMessageUpdate= {},
+//                onUserMessageSend={},
+//            )
+            ChatScreenError()
         }
     }
 }
@@ -117,7 +118,7 @@ fun ChatScreen(viewModel: ChatViewModel = getViewModel()) {
  */
 @Composable
 private fun ChatScreenUnselected(
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier.fillMaxSize(),
 ) {
     Box(
         modifier = modifier,
@@ -201,7 +202,7 @@ private fun ChatScreenLoading(
  */
 @Composable
 private fun ChatScreenError(
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier.fillMaxSize(),
 ) {
     Column(
         modifier = modifier,
