@@ -9,6 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -53,7 +54,6 @@ fun LoginText() {
         text = stringResource(R.string.loginWelcome),
         style = MaterialTheme.typography.h5,
         fontWeight = W900,
-        color = White,
         textAlign = TextAlign.Center,
         modifier = Modifier
             .alpha(ContentAlpha.high)
@@ -63,7 +63,6 @@ fun LoginText() {
         text = stringResource(R.string.loginWelcomeCaption),
         style = MaterialTheme.typography.caption,
         fontWeight = W900,
-        color = White,
         textAlign = TextAlign.Center,
         modifier = Modifier
             .alpha(ContentAlpha.medium)
@@ -73,24 +72,18 @@ fun LoginText() {
 
 @Composable
 fun TopLoginBar() {
-    TopAppBar(
-        backgroundColor = BlueGray900,
+    SmallTopAppBar(
         title = {
             Text(
                 text = stringResource(R.string.login),
                 fontWeight = FontWeight.Bold,
-                color = White,
-                modifier = Modifier.alpha(ContentAlpha.medium)
             )
-
-
         },
         navigationIcon = {
             IconButton(onClick = { /* TODO:doSomething() */ }) {
                 Icon(
                     Icons.Filled.ArrowBack,
                     contentDescription = "return",
-                    tint = White.copy(alpha = ContentAlpha.medium)
                 )
             }
         },
@@ -115,21 +108,25 @@ fun LoginTextField(
             text = stringResource(R.string.accountMessage),
             style = MaterialTheme.typography.caption,
             fontWeight = W500,
-            color = White,
             modifier = Modifier
                 .alpha(ContentAlpha.medium)
                 .padding(bottom = 8.dp, top = 20.dp)
         )
 
         TextField(
-            placeholder = { Text(stringResource(R.string.loginHint),color = White.copy(ContentAlpha.medium)) },
+            placeholder = {
+                Text(
+                    stringResource(R.string.loginHint),
+                    color =  LocalContentColor.current.copy(alpha = ContentAlpha.medium),
+                )
+            },
             value = account,
             onValueChange = { account = it },
             maxLines = 1,
             shape = RoundedCornerShape(10),
             colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = TextFieldColor,
-                textColor = White.copy(ContentAlpha.high)
+                backgroundColor = MaterialTheme.colors.surface,
+                textColor = LocalContentColor.current.copy(alpha = ContentAlpha.high),
             ),
             modifier = Modifier
                 .padding(bottom = 20.dp)
@@ -139,7 +136,12 @@ fun LoginTextField(
 
 
         TextField(
-            placeholder = { Text(stringResource(R.string.passwordHint),color=White.copy(ContentAlpha.medium)) },
+            placeholder = {
+                Text(
+                    stringResource(R.string.passwordHint),
+                    color = LocalContentColor.current.copy(alpha = ContentAlpha.medium)
+                )
+            },
             value = password,
             onValueChange = { password = it },
             singleLine = true,
@@ -154,14 +156,14 @@ fun LoginTextField(
                     Icon(
                         imageVector = visibilityIcon,
                         contentDescription = description,
-                        tint = Color.White.copy(ContentAlpha.high)
+                        tint = LocalContentColor.current.copy(alpha = ContentAlpha.high)
                     )
                 }
             },
             shape = RoundedCornerShape(10),
             colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = TextFieldColor,
-                textColor = White.copy(ContentAlpha.medium)
+                backgroundColor =  MaterialTheme.colors.surface,
+                textColor = LocalContentColor.current.copy(alpha = ContentAlpha.medium),
             ),
             modifier = Modifier
                 .padding(bottom = 20.dp)

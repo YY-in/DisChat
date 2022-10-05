@@ -9,6 +9,8 @@ val Purple700 = Color(0xFF3700B3)
 
 val Teal200 = Color(0xFF03DAC5)
 
+
+val Indigo50 = Color(0xFFE8EAF6)
 val Indigo900 = Color(0xFF1A237E)
 val Indigo700 = Color(0xFF303F9F)
 val Indigo400 = Color(0xFF5C6BC0)

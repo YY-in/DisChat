@@ -19,7 +19,6 @@ import com.yyin.dischat.ui.theme.BlueGray400
 import com.yyin.dischat.ui.theme.Indigo700
 import com.yyin.dischat.ui.theme.White
 
-
 @Composable
 fun DisplayBoard(modifier: Modifier) {
     Image(
@@ -28,7 +27,6 @@ fun DisplayBoard(modifier: Modifier) {
         modifier = modifier
             .fillMaxWidth()
             .wrapContentWidth(Alignment.CenterHorizontally)
-            .scale(1.2f)
     )
 }
 
@@ -39,7 +37,6 @@ fun ButtonColumn(modifier: Modifier =Modifier) {
             onClick = { /*TODO*/ },
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = Indigo700,
-                contentColor = White
             ),
             modifier = modifier.fillMaxWidth()
         ) {
@@ -50,7 +47,6 @@ fun ButtonColumn(modifier: Modifier =Modifier) {
             onClick = { /*TODO*/ },
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = BlueGray400,
-                contentColor = White
             ),
             modifier = modifier
                 .fillMaxWidth()
@@ -69,14 +65,12 @@ fun WelcomeText() {
             style = MaterialTheme.typography.h5,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold,
-            color = White,
             modifier = Modifier.fillMaxWidth()
 
         )
         CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
             Text(
                 text = stringResource(R.string.welcomeOverline),
-                color= White,
                 style = MaterialTheme.typography.overline,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()

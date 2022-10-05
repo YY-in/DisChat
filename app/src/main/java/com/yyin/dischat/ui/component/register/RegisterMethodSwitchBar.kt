@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.yyin.dischat.ui.theme.BlueGray900
+import com.yyin.dischat.ui.theme.Indigo50
 import com.yyin.dischat.ui.theme.TextFieldColor
 import com.yyin.dischat.ui.theme.White
 
@@ -56,7 +57,7 @@ fun RegisterMethodSwitchBar(
     currentScreen: RegisterMethodScreen
 ) {
     Surface(
-        color = TextFieldColor,
+        color= MaterialTheme.colors.background,
         modifier = Modifier
             .fillMaxWidth()
     ) {
@@ -84,8 +85,8 @@ fun RegisterMethodTab(
     selected: Boolean
 ) {
     //色彩设定
-    val color = White
-    val backGroundColor = BlueGray900
+    val color = MaterialTheme.colors.onSurface
+    val backGroundColor = MaterialTheme.colors.surface
     //转移动画
     val durationMillis = if (selected) TabFadeInAnimationDuration else TabFadeOutAnimationDuration
     val animSpec = remember {

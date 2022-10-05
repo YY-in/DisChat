@@ -19,13 +19,12 @@ import com.yyin.dischat.ui.component.WelcomeText
 @Composable
 fun WelcomePageScreen(){
     Scaffold(
-        backgroundColor = DarkColor,
     ) {
         Column {
             Spacer(modifier = Modifier.paddingFromBaseline(100.dp, 40.dp))
             DisplayLogo()
-            Spacer(modifier = Modifier.paddingFromBaseline(80.dp, 40.dp))
-            DisplayBoard(modifier = Modifier)
+            Spacer(modifier = Modifier.paddingFromBaseline(80.dp, 80.dp))
+            DisplayBoard(modifier = Modifier.padding(1.dp))
             Spacer(modifier = Modifier.paddingFromBaseline(60.dp, 30.dp))
             WelcomeText()
             Spacer(modifier = Modifier.paddingFromBaseline(40.dp, 20.dp))
