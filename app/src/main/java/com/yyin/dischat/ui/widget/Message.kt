@@ -129,6 +129,39 @@ fun WidgetChatMessage(
 }
 
 @Composable
+fun WidgetMessageReply(
+    modifier: Modifier = Modifier,
+    avatar: @Composable (() -> Unit)? = null,
+    author: @Composable (() -> Unit)? = null,
+    content: @Composable (() -> Unit)? = null,
+) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        if (avatar != null) {
+            Box(
+                modifier = Modifier.size(20.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                avatar()
+            }
+        }
+        if (author != null) {
+            ProvideTextStyle(MaterialTheme.typography.labelMedium) {
+                author()
+            }
+        }
+        if (content != null) {
+            ProvideTextStyle(MaterialTheme.typography.bodySmall) {
+                content()
+            }
+        }
+    }
+}
+
+@Composable
 fun WidgetMessageReplyContent(
     text: AnnotatedString,
     modifier: Modifier = Modifier,
@@ -222,6 +255,7 @@ fun WidgetMessageContent(
         inlineContent = textInlineContent()
     )
 }
+
 
 @Composable
 private fun textInlineContent(): Map<String, InlineTextContent> {

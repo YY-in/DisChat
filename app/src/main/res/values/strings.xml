@@ -18,6 +18,12 @@
     <string name="app_name">DisChat</string>
     <string name="chat_title">!@#$</string>
     <string name="chat_unselected_message">请选择一个频道</string>
+    <string name="timestamp_tomorrow">明日</string>
+    <string name="timestamp_today">今日</string>
+    <string name="timestamp_yesterday">昨日</string>
+    <string name="chat_loading_error">加载聊天时出现问题</string>
+    <string name="message_reply_unknown">未知回复</string>
+    <string name="chat_input_hint">Message !@#$</string>
 
 
 </resources>
