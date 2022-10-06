@@ -1,4 +1,4 @@
-package com.yyin.dischat.ui.component.register
+package com.yyin.dischat.ui.component.welcome.register
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
@@ -23,10 +23,6 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.yyin.dischat.ui.theme.BlueGray900
-import com.yyin.dischat.ui.theme.Indigo50
-import com.yyin.dischat.ui.theme.TextFieldColor
-import com.yyin.dischat.ui.theme.White
 
 
 //@Preview

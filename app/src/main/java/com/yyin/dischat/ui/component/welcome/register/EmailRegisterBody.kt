@@ -1,4 +1,4 @@
-package com.yyin.dischat.ui.component.register
+package com.yyin.dischat.ui.component.welcome.register
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource

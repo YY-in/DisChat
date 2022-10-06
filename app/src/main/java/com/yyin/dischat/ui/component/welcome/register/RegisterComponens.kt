@@ -1,4 +1,4 @@
-package com.yyin.dischat.ui.component.register
+package com.yyin.dischat.ui.component.welcome.register
 
 import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
@@ -17,7 +17,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.W500
 import androidx.compose.ui.unit.dp
 import com.yyin.dischat.R
-import com.yyin.dischat.ui.theme.*
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 
