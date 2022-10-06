@@ -37,6 +37,7 @@ fun ButtonColumn(modifier: Modifier =Modifier) {
             onClick = { /*TODO*/ },
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = Indigo700,
+                contentColor = White
             ),
             modifier = modifier.fillMaxWidth()
         ) {
@@ -47,6 +48,7 @@ fun ButtonColumn(modifier: Modifier =Modifier) {
             onClick = { /*TODO*/ },
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = BlueGray400,
+                contentColor = White
             ),
             modifier = modifier
                 .fillMaxWidth()

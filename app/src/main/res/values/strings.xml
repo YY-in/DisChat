@@ -24,6 +24,16 @@
     <string name="chat_loading_error">加载聊天时出现问题</string>
     <string name="message_reply_unknown">未知回复</string>
     <string name="chat_input_hint">Message !@#$</string>
+    <string name="forget_password_caption">验证code已发送到关联账户</string>
+    <string name="forget_password_tip">输入您的确认代码来重置密码</string>
+    <string name="forget_password">忘记密码</string>
+    <string name="confirm">验证</string>
+    <string name="update_password_tip">更新密码</string>
+    <string name="update_password_caption">输入当前密码和新密码</string>
+    <string name="current_password_hint">当前密码</string>
+    <string name="new_password_hint">新密码</string>
+    <string name="confirm_new_password_hint">确认新密码</string>
+    <string name="done">完成</string>
 
 
 </resources>

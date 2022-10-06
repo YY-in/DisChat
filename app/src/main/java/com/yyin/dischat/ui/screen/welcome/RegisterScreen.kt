@@ -7,21 +7,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.yyin.dischat.R
-import com.yyin.dischat.ui.component.register.SwitchBar
-import com.yyin.dischat.ui.component.register.TopRegisterBar
-import com.yyin.dischat.ui.theme.DarkColor
+import com.yyin.dischat.ui.component.welcome.register.SwitchBar
+import com.yyin.dischat.ui.component.welcome.register.TopRegisterBar
 import com.yyin.dischat.ui.theme.Indigo700
 import com.yyin.dischat.ui.theme.White
 
 @Preview
 @Composable
-fun RegisterCard() {
+fun RegisterScreen() {
     Scaffold(
         topBar = { TopRegisterBar() },
     ) { paddingValues ->
@@ -41,7 +41,7 @@ fun RegisterCard() {
                     fontWeight = FontWeight.W900,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
-                        .alpha(ContentAlpha.medium)
+                        .alpha(ContentAlpha.high)
                         .padding(vertical = 15.dp)
                 )
                 Box(
@@ -54,6 +54,7 @@ fun RegisterCard() {
                     onClick = { /*TODO*/ },
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = Indigo700,
+                        contentColor = White
                     ),
                     modifier = Modifier
                         .fillMaxWidth()

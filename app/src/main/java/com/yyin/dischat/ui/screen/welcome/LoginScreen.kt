@@ -1,21 +1,23 @@
 package com.yyin.dischat.ui.screen.welcome
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.yyin.dischat.ui.theme.DarkColor
-import com.yyin.dischat.ui.component.login.LoginButton
-import com.yyin.dischat.ui.component.login.LoginText
-import com.yyin.dischat.ui.component.login.LoginTextField
-import com.yyin.dischat.ui.component.login.TopLoginBar
+import com.yyin.dischat.R
+import com.yyin.dischat.ui.component.welcome.login.LoginButton
+import com.yyin.dischat.ui.component.welcome.login.LoginText
+import com.yyin.dischat.ui.component.welcome.login.LoginTextField
+import com.yyin.dischat.ui.component.welcome.login.TopLoginBar
 
 @Preview
 @Composable
@@ -42,4 +44,23 @@ fun LoginScreen(){
             }
         }
     }
+}
+
+@Composable
+fun ForgetTextField() {
+    var code by rememberSaveable { mutableStateOf("") }
+    TextField(
+        value = code,
+        onValueChange = { code = it },
+        maxLines = 1,
+        shape = RoundedCornerShape(10),
+        colors = TextFieldDefaults.textFieldColors(
+            backgroundColor = MaterialTheme.colors.surface,
+            textColor = LocalContentColor.current.copy(alpha = ContentAlpha.high),
+        ),
+        modifier = Modifier
+            .padding(20.dp)
+            .fillMaxWidth()
+            .height(50.dp),
+    )
 }

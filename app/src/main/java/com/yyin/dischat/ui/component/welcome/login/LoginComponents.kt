@@ -1,4 +1,4 @@
-package com.yyin.dischat.ui.component.login
+package com.yyin.dischat.ui.component.welcome.login
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,7 +28,6 @@ import com.yyin.dischat.R
 import com.yyin.dischat.ui.theme.*
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.graphics.Color
 
 
 @Composable
