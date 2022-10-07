@@ -38,14 +38,23 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import org.koin.androidx.compose.getViewModel
 
-@Preview
-@Composable
-fun ChatScreenPreview() {
-    ChatScreen(ChatViewModel())
-}
+
 
 @Composable
-fun ChatScreen(viewModel: ChatViewModel = getViewModel()) {
+fun ChatScreen(
+    onChannelsButtonClick: () -> Unit,
+    onMembersButtonClick: () -> Unit,
+    onPinsButtonClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: ChatViewModel = getViewModel()
+) {
+    //分类信息
+    val sortedMessages by remember(viewModel.messages) {
+        derivedStateOf {
+            viewModel.getSortedMessages()
+        }
+    }
+
     Scaffold(
         modifier = Modifier,
         topBar = {
@@ -82,33 +91,64 @@ fun ChatScreen(viewModel: ChatViewModel = getViewModel()) {
                 .padding(paddingValues),
             tonalElevation = 2.dp
         ) {
-//            ChatScreenLoaded(
-//                messages = listOf(
-//                    DomainMessageMemberJoin(
-//                        id = 1,
-//                        channelId = 1,
-//                        timestamp = Clock.System.now(),
-//                        content = "Test Mf",
-//                        author = DomainUserPublic(
-//                            id = 12,
-//                            username = "YYin",
-//                            discriminator = "A kotlin developer",
-//                            bot = false,
-//                            bio = "hi yo",
-//                            flags = 1,
-//                            pronouns = "he/him",
-//                            avatarUrl = "https://qiniu.yyin.top/mybatisplus.png"
-//                        ),
-//                    )
-//                ) ,
-//                currentUserId = 12,
-//                channelName= "Test",
-//                userMessage = "Helle DisChat From YYin",
-//                sendEnabled = true,
-//                onUserMessageUpdate= {},
-//                onUserMessageSend={},
-//            )
-            ChatScreenError()
+            /**
+             * ChatScreenLoaded(
+                messages = listOf(
+                    DomainMessageMemberJoin(
+                        id = 1,
+                        channelId = 1,
+                        timestamp = Clock.System.now(),
+                        content = "Test Mf",
+                        author = DomainUserPublic(
+                            id = 12,
+                            username = "YYin",
+                            discriminator = "A kotlin developer",
+                            bot = false,
+                            bio = "hi yo",
+                            flags = 1,
+                            pronouns = "he/him",
+                            avatarUrl = "https://qiniu.yyin.top/mybatisplus.png"
+                        ),
+                    )
+                ) ,
+                currentUserId = 12,
+                channelName= "Test",
+                userMessage = "Helle DisChat From YYin",
+                sendEnabled = true,
+                onUserMessageUpdate= {},
+                onUserMessageSend={},
+            )*/
+            //安装状态切换界面
+            when (viewModel.state) {
+                is ChatViewModel.State.Unselected -> {
+                    ChatScreenUnselected(
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+                is ChatViewModel.State.Loading -> {
+                    ChatScreenLoading(
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+                is ChatViewModel.State.Loaded -> {
+                    ChatScreenLoaded(
+                        messages = sortedMessages,
+                        currentUserId = viewModel.currentUserId,
+                        channelName = viewModel.channelName,
+                        userMessage = viewModel.userMessage,
+                        sendEnabled = viewModel.sendEnabled,
+                        onUserMessageUpdate = viewModel::updateMessage,
+                        onUserMessageSend = viewModel::sendMessage,
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                }
+                is ChatViewModel.State.Error -> {
+                    ChatScreenError(
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+
+            }
         }
     }
 }
@@ -118,7 +158,7 @@ fun ChatScreen(viewModel: ChatViewModel = getViewModel()) {
  */
 @Composable
 private fun ChatScreenUnselected(
-    modifier: Modifier = Modifier.fillMaxSize(),
+    modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier,
@@ -186,7 +226,11 @@ private fun ChatScreenLoading(
                                         .shimmer(shimmer)
                                         .padding(top = 8.dp)
                                         .clip(MaterialTheme.shapes.medium)
-                                        .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f))
+                                        .background(
+                                            MaterialTheme.colorScheme.onSurface.copy(
+                                                alpha = 0.3f
+                                            )
+                                        )
                                 )
                             }
                         }
