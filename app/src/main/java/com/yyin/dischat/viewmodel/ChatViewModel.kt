@@ -13,17 +13,21 @@ import kotlinx.coroutines.launch
 
 class ChatViewModel(
 
-):ViewModel(){
+):ViewModel(
+
+){
     sealed interface State{
         object Unselected:State
         object Loading:State
         object Loaded:State
         object Error:State
     }
+    // 状态变量的存储
     var state by mutableStateOf<State>(State.Unselected)
         private set
-
+    // 消息的存储
     val messages = mutableStateMapOf<Long, DomainMessage>()
+
     var channelName by mutableStateOf("")
         private set
     var userMessage by mutableStateOf("")
@@ -33,14 +37,16 @@ class ChatViewModel(
     var currentUserId by mutableStateOf<Long?>(null)
         private set
 
+    // throttle 阀门、节流阀
     val startTyping = throttle(9500, viewModelScope) {
-//        repository.startTyping(persistentChannelId)
+       // repository.startTyping(persistentChannelId)
     }
 
     fun updateMessage(message: String) {
         userMessage = message
         startTyping()
     }
+
     fun sendMessage() {
         viewModelScope.launch {
             sendEnabled = false
@@ -56,5 +62,7 @@ class ChatViewModel(
         }
     }
 
-
+    fun getSortedMessages(): List<DomainMessage> {
+        return messages.values.sortedByDescending { it.id }
+    }
 }
