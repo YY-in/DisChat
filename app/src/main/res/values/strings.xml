@@ -34,6 +34,7 @@
     <string name="new_password_hint">新密码</string>
     <string name="confirm_new_password_hint">确认新密码</string>
     <string name="done">完成</string>
+    <string name="settings_open">打开设置</string>
 
 
 </resources>

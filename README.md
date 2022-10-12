@@ -29,3 +29,5 @@
 
 ![频道加载出现问题](https://qiniu.yyin.top/20221005203854.png "频道加载出现问题")
 
+## 导览选择界面
+![当前用户已加载状态](https://qiniu.yyin.top/currentUserItemLoadedState.png)
