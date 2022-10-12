@@ -14,13 +14,24 @@ fun HomeScreen(
     onPinsClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-
+    // 设置研磨面板的状态
     val panelState = rememberOverlappingPanelsState(OverlappingPanelsValue.Closed)
     Surface(modifier = modifier) {
         OverlappingPanels(
             modifier = Modifier.fillMaxSize(),
             panelsState = panelState,
-            panelStart = {/* TODO */},
+            panelStart = {
+                // 左侧Channel选择面板
+                GuildsChannelsScreen(
+                    onGuildSelect = {
+                        // TODO
+                    },
+                    onChannelSelect = {
+                        // TODO
+                    },
+                    onSettingsClick = onSettingsClick,
+                )
+            },
             panelCenter = {/* TODO */},
             panelEnd = {/* TODO */}
         )
