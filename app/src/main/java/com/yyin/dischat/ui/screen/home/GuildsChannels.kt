@@ -1,37 +1,39 @@
 package com.yyin.dischat.ui.screen.home
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Surface
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
+import com.valentinilk.shimmer.ShimmerBounds
+import com.valentinilk.shimmer.rememberShimmer
+import com.valentinilk.shimmer.shimmer
 import com.yyin.dischat.R
 import com.yyin.dischat.domain.model.DomainCustomStatus
+import com.yyin.dischat.domain.model.DomainGuild
 import com.yyin.dischat.domain.model.DomainUserStatus
 import com.yyin.dischat.ui.component.basic.AsyncImageLoader
 import com.yyin.dischat.ui.component.basic.OCBadgeBox
-import com.yyin.dischat.ui.widget.WidgetCurrentUser
-import com.yyin.dischat.ui.widget.WidgetStatusIcon
+import com.yyin.dischat.ui.widget.*
 import com.yyin.dischat.util.ifNotNullComposable
+import com.yyin.dischat.viewmodel.CurrentUserViewModel
 import com.yyin.dischat.viewmodel.GuildsViewModel
 import org.koin.androidx.compose.getViewModel
 
-//@Preview
-//@Composable
-//fun GuildsChannelsPreview() {
-//
-//}
-
+/**
+ * 工会频道主界面
+ */
 @Composable
 fun GuildsChannelsScreen(
     onSettingsClick: () -> Unit,
@@ -40,7 +42,7 @@ fun GuildsChannelsScreen(
     modifier: Modifier = Modifier,
     guildsViewModel: GuildsViewModel = getViewModel(),
 //    channelsViewModel: ChannelsViewModel = getViewModel(),
-//    currentUserViewModel: CurrentUserViewModel = getViewModel()
+    currentUserViewModel: CurrentUserViewModel = getViewModel()
 ) {
     Column(
         modifier = modifier,
@@ -49,7 +51,7 @@ fun GuildsChannelsScreen(
         Row(
             modifier = Modifier.weight(1f),
         ) {
-            // 左侧Guilds列表
+            // 左侧工会列表
             GuildsList(
                 modifier = Modifier
                     .fillMaxHeight()
@@ -57,39 +59,55 @@ fun GuildsChannelsScreen(
                 onGuildSelect = onGuildSelect,
                 viewModel = guildsViewModel
             )
-            // 右侧Channels列表
+            // 右侧频道列表
 //            ChannelsList()
         }
         // 底部用户信息
-//        CurrentUserItem()
+        CurrentUserItem(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 6.dp),
+            viewModel = currentUserViewModel,
+            onSettingsClick = onSettingsClick
+        )
     }
 }
 
+/**
+ * 工会列表状态集合
+ */
 @Composable
 private fun GuildsList(
     onGuildSelect: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: GuildsViewModel = getViewModel()
 ) {
-//    when(viewModel.state){
-//        is GuildsViewModel.State.Loading -> {
-//
-//        }
-//        is GuildsViewModel.State.Loaded ->{
-//
-//        }
-//        is GuildsViewModel.State.Error -> {
-//
-//        }
-//    }
+    when (viewModel.state) {
+        GuildsViewModel.State.Loading -> {
+            GuildsListLoading(modifier = modifier)
+        }
+        GuildsViewModel.State.Loaded -> {
+            GuildsListLoaded(
+                modifier = modifier,
+                onGuildSelect = {
+                    viewModel.selectGuild(it)
+                    onGuildSelect()
+                },
+                guilds = viewModel.guilds.values.toList(),
+                selectedGuildId = viewModel.selectedGuildId
+            )
+        }
+        GuildsViewModel.State.Error -> {
 
+        }
+    }
 }
 
 @Composable
 private fun CurrentUserItem(
     modifier: Modifier = Modifier,
     onSettingsClick: () -> Unit,
-    viewModel: GuildsViewModel = getViewModel()
+    viewModel: CurrentUserViewModel = getViewModel()
 ) {
     var showStatusSheet by remember { mutableStateOf(false) }
 
@@ -99,60 +117,79 @@ private fun CurrentUserItem(
         shape = MaterialTheme.shapes.medium
     ) {
         when (viewModel.state) {
-            GuildsViewModel.State.Error -> TODO()
-            GuildsViewModel.State.Loaded -> TODO()
-            GuildsViewModel.State.Loading -> TODO()
+            CurrentUserViewModel.State.Loading -> {
+                CurrentUserItemLoading(
+                    onSettingsClick = onSettingsClick
+                )
+            }
+            CurrentUserViewModel.State.Loaded -> {
+                CurrentUserItemLoaded(
+                    onSettingsClick = onSettingsClick,
+                    avatarUrl = viewModel.avatarUrl,
+                    username = viewModel.username,
+                    discriminator = viewModel.discriminator,
+                    status = viewModel.userStatus,
+                    isStreaming = viewModel.isStreaming,
+                    customStatus = viewModel.userCustomStatus
+                )
+            }
+            CurrentUserViewModel.State.Error -> {
+
+            }
         }
     }
-
 }
 
-@Preview
-@Composable
-private fun CurrentUserItemLoadedPreview() {
-    Column{
-        CurrentUserItemLoaded(
-            onSettingsClick = {},
-            avatarUrl="https://qiniu.yyin.top/yuji.png",
-            username = "YuJi",
-            discriminator="#1253",
-            status=DomainUserStatus.Idle,
-            isStreaming= false,
-            customStatus = null
-        )
-        CurrentUserItemLoaded(
-            onSettingsClick = {},
-            avatarUrl="https://qiniu.yyin.top/link.png",
-            username = "Link",
-            discriminator="#7865",
-            status=DomainUserStatus.Online,
-            isStreaming= false,
-            customStatus = DomainCustomStatus("I'm a prince ",null,null,null)
-        )
-        CurrentUserItemLoaded(
-            onSettingsClick = {},
-            avatarUrl="https://qiniu.yyin.top/lucy.png",
-            username = "Lucy",
-            discriminator="#6532",
-            status=DomainUserStatus.Dnd,
-            isStreaming= false,
-            customStatus =DomainCustomStatus("fly me to the moon",null,null,null)
-        )
-        CurrentUserItemLoaded(
-            onSettingsClick = {},
-            avatarUrl="https://qiniu.yyin.top/zelda.png",
-            username = "Zelda",
-            discriminator="#5874",
-            status=DomainUserStatus.Invisible,
-            isStreaming= false,
-            customStatus = DomainCustomStatus("I'm a princess",null,null,null)
-        )
-    }
 
+@Composable
+fun CurrentUserItemLoading(
+    onSettingsClick: () -> Unit
+) {
+    val shimmer = rememberShimmer(shimmerBounds = ShimmerBounds.View)
+    WidgetCurrentUser(
+        avatar = {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .shimmer(shimmer)
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)),
+            )
+        },
+        username = {
+            val spaces = remember { (15..30).random() }
+            Text(
+                text = " ".repeat(spaces),
+                modifier = Modifier
+                    .shimmer(shimmer)
+                    .clip(MaterialTheme.shapes.medium)
+                    .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f))
+            )
+        },
+        discriminator = {
+            Text(
+                text = " ".repeat(10),
+                modifier = Modifier
+                    .shimmer(shimmer)
+                    .clip(MaterialTheme.shapes.medium)
+                    .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f))
+            )
+        },
+        buttons = {
+            IconButton(onClick = onSettingsClick) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_settings),
+                    contentDescription = stringResource(R.string.settings_open)
+                )
+            }
+        },
+        customStatus = null
+    )
 }
 
+
 @Composable
-private fun CurrentUserItemLoaded(
+fun CurrentUserItemLoaded(
     onSettingsClick: () -> Unit,
     avatarUrl: String,
     username: String,
@@ -192,4 +229,133 @@ private fun CurrentUserItemLoaded(
             }
         },
     )
+}
+
+
+/**
+ * 工会加载中
+ */
+@Composable
+private fun GuildsListLoading(
+    modifier: Modifier = Modifier,
+ ) {
+    val shimmer = rememberShimmer(shimmerBounds = ShimmerBounds.View)
+    Column(
+        modifier = modifier
+            .padding(vertical = 8.dp)
+            .fillMaxWidth()
+            .verticalScroll(
+                state = rememberScrollState(),
+                enabled = false,
+            ),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        WidgetGuildListItem(
+            selected = false,
+            showIndicator = false,
+            onClick = {}
+        ) {
+            WidgetGuildContentVector {
+                Icon(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .align(Alignment.Center),
+                    painter = painterResource(R.drawable.ic_discord_logo),
+                    contentDescription = stringResource(R.string.guilds_home),
+                )
+            }
+        }
+
+        Divider(
+            modifier = Modifier
+                .fillMaxWidth(0.55f)
+                .padding(bottom = 4.dp)
+                .clip(MaterialTheme.shapes.medium),
+            thickness = 2.dp,
+            color = MaterialTheme.colorScheme.outline,
+        )
+
+        val count = remember { (4..10).random() }
+        repeat(count) {
+            Box(
+                modifier = Modifier
+                    .shimmer(shimmer)
+                    .size(48.dp)
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
+            )
+        }
+    }
+}
+
+
+@Composable
+fun GuildsListLoaded(
+    onGuildSelect: (Long) -> Unit,
+    selectedGuildId: Long,
+    guilds: List<DomainGuild>,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        contentPadding = PaddingValues(vertical = 8.dp)
+    ) {
+        // home 返回标签
+        item {
+            WidgetGuildListItem(
+                modifier = Modifier.fillParentMaxWidth(),
+                selected = false,
+                showIndicator = false,
+                onClick = {}
+            ) {
+                WidgetGuildContentVector {
+                    Icon(
+                        modifier = Modifier
+                            .size(32.dp)
+                            .align(Alignment.Center),
+                        painter = painterResource(R.drawable.ic_discord_logo),
+                        contentDescription = stringResource(R.string.guilds_home),
+                    )
+                }
+            }
+        }
+
+        item {
+            // 分割线
+            Divider(
+                modifier = Modifier
+                    .fillParentMaxWidth(0.55f)
+                    .padding(bottom = 4.dp)
+                    .clip(MaterialTheme.shapes.medium),
+                thickness = 2.dp,
+                color = MaterialTheme.colorScheme.outline,
+            )
+        }
+
+        items(guilds) { guild ->
+            WidgetGuildListItem(
+                modifier = Modifier.fillParentMaxWidth(),
+                selected = selectedGuildId == guild.id,
+                showIndicator = true,
+                onClick = {
+                    onGuildSelect(guild.id)
+                }
+            ) {
+                // 工会图标
+                if (guild.iconUrl != null) {
+                    WidgetGuildContentImage(
+                        url = guild.iconUrl
+                    )
+                } else {
+                    //工会名称
+                    WidgetGuildContentVector {
+                        Text(guild.iconText)
+                    }
+                }
+            }
+        }
+    }
 }

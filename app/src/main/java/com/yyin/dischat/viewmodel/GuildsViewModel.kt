@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
 import androidx.lifecycle.viewModelScope
 import com.yyin.dischat.domain.manager.PersistentDataManager
+import com.yyin.dischat.domain.model.DomainGuild
 import kotlinx.coroutines.launch
 
 class GuildsViewModel(
@@ -21,8 +22,8 @@ class GuildsViewModel(
 
     var state by mutableStateOf<State>(State.Loading)
         private set
-
-//    val guilds = mutableStateMapOf<Long, DomainGuild>()
+    // map存储工会信息
+    val guilds = mutableStateMapOf<Long, DomainGuild>()
 
     var selectedGuildId by mutableStateOf(0L)
         private set

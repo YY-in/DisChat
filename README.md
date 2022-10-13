@@ -31,3 +31,9 @@
 
 ## 导览选择界面
 ![当前用户已加载状态](https://qiniu.yyin.top/currentUserItemLoadedState.png)
+
+![当前用户加载状态](https://qiniu.yyin.top/currentUserItemLoadingState.png)
+
+![工会列表加载状态](https://qiniu.yyin.top/guildsListLoading.png)
+
+![工会列表已加载状态](https://qiniu.yyin.top/guildsListLoaded.png)

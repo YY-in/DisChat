@@ -35,6 +35,7 @@
     <string name="confirm_new_password_hint">确认新密码</string>
     <string name="done">完成</string>
     <string name="settings_open">打开设置</string>
+    <string name="guilds_home">家</string>
 
 
 </resources>
