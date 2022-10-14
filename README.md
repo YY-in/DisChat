@@ -37,3 +37,5 @@
 ![工会列表加载状态](https://qiniu.yyin.top/guildsListLoading.png)
 
 ![工会列表已加载状态](https://qiniu.yyin.top/guildsListLoaded.png)
+
+![频道列表加载状态](https://qiniu.yyin.top/guildsChannelsLoading.png)
