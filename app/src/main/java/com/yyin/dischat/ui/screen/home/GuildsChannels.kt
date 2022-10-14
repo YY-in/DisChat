@@ -1,5 +1,8 @@
 package com.yyin.dischat.ui.screen.home
 
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,20 +16,31 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
 import com.valentinilk.shimmer.shimmer
 import com.yyin.dischat.R
+import com.yyin.dischat.domain.model.DomainChannel
 import com.yyin.dischat.domain.model.DomainCustomStatus
 import com.yyin.dischat.domain.model.DomainGuild
 import com.yyin.dischat.domain.model.DomainUserStatus
 import com.yyin.dischat.ui.component.basic.AsyncImageLoader
 import com.yyin.dischat.ui.component.basic.OCBadgeBox
 import com.yyin.dischat.ui.widget.*
+import com.yyin.dischat.util.ContentAlpha
+import com.yyin.dischat.util.ProvideContentAlpha
 import com.yyin.dischat.util.ifNotNullComposable
+import com.yyin.dischat.viewmodel.ChannelsViewModel
 import com.yyin.dischat.viewmodel.CurrentUserViewModel
 import com.yyin.dischat.viewmodel.GuildsViewModel
 import org.koin.androidx.compose.getViewModel
@@ -103,6 +117,9 @@ private fun GuildsList(
     }
 }
 
+/**
+ * 当前用户状态集合
+ */
 @Composable
 private fun CurrentUserItem(
     modifier: Modifier = Modifier,
@@ -140,6 +157,61 @@ private fun CurrentUserItem(
     }
 }
 
+/**
+ * 频道列表状态集合
+ */
+@Composable
+private fun ChannelsList(
+    onChannelSelect: () -> Unit,
+    viewModel: ChannelsViewModel,
+    modifier: Modifier = Modifier
+) {
+    val sortedChannels by remember(viewModel.channels) {
+        derivedStateOf {
+            viewModel.getSortedChannels()
+        }
+    }
+    CompositionLocalProvider(LocalAbsoluteTonalElevation provides 1.dp) {
+        androidx.compose.material3.Surface(
+            modifier = modifier,
+            shape = MaterialTheme.shapes.large,
+        ) {
+            when (viewModel.state) {
+                is ChannelsViewModel.State.Unselected -> {
+                    ChannelsListUnselected(
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+                is ChannelsViewModel.State.Loading -> {
+                    ChannelsListLoading(
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+                is ChannelsViewModel.State.Loaded -> {
+                    ChannelsListLoaded(
+                        modifier = Modifier.fillMaxSize(),
+                        onChannelSelect = {
+                            viewModel.selectChannel(it)
+                            onChannelSelect()
+                        },
+                        onCategoryClick = {
+                            viewModel.toggleCategory(it)
+                        },
+                        bannerUrl = viewModel.guildBannerUrl,
+                        boostLevel = viewModel.guildBoostLevel,
+                        guildName = viewModel.guildName,
+                        channels = sortedChannels,
+                        collapsedCategories = viewModel.collapsedCategories,
+                        selectedChannelId = viewModel.selectedChannelId
+                    )
+                }
+                is ChannelsViewModel.State.Error -> {
+
+                }
+            }
+        }
+    }
+}
 
 @Composable
 fun CurrentUserItemLoading(
@@ -353,6 +425,277 @@ fun GuildsListLoaded(
                     //工会名称
                     WidgetGuildContentVector {
                         Text(guild.iconText)
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ChannelsListUnselected(
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.Center
+    ) {
+        ProvideTextStyle(MaterialTheme.typography.titleMedium) {
+            Text(stringResource(R.string.channel_unselected_message))
+        }
+    }
+}
+
+@Composable
+fun ChannelsListLoading(
+    modifier: Modifier = Modifier,
+) {
+    val shimmer = rememberShimmer(shimmerBounds = ShimmerBounds.View)
+    Column(modifier = modifier) {
+        val items = remember { (5..20).random() }
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(14.dp)
+        ) {
+            val guildName = remember { " ".repeat((20..30).random()) }
+            val shimmerColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+            Box(
+                modifier = Modifier
+                    .size(24.dp)
+                    .shimmer(shimmer)
+                    .clip(CircleShape)
+                    .background(shimmerColor)
+            )
+            Text(
+                modifier = Modifier
+                    .shimmer(shimmer)
+                    .clip(MaterialTheme.shapes.medium)
+                    .background(shimmerColor),
+                text = guildName,
+                fontWeight = FontWeight.SemiBold,
+                style = MaterialTheme.typography.titleLarge,
+            )
+        }
+        repeat(items) { itemIndex ->
+            val isCategory = remember { itemIndex == 0 || (0..6).random() == 1 }
+            if (isCategory) {
+                WidgetCategory(
+                    modifier = Modifier.padding(
+                        top = 12.dp,
+                        bottom = 4.dp
+                    ),
+                    title = {
+                        val title = remember { " ".repeat((10..20).random()) }
+                        Text(
+                            modifier = Modifier
+                                .shimmer(shimmer)
+                                .clip(MaterialTheme.shapes.medium)
+                                .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)),
+                            text = title
+                        )
+                    },
+                    icon = {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .shimmer(shimmer)
+                                .clip(CircleShape)
+                                .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+                        )
+                    },
+                    onClick = {},
+                )
+            } else {
+                WidgetChannelListItem(
+                    modifier = Modifier.padding(bottom = 2.dp),
+                    title = {
+                        val title = remember { " ".repeat((15..30).random()) }
+                        Text(
+                            modifier = Modifier
+                                .shimmer(shimmer)
+                                .clip(MaterialTheme.shapes.medium)
+                                .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)),
+                            text = title
+                        )
+                    },
+                    icon = {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .shimmer(shimmer)
+                                .clip(CircleShape)
+                                .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f))
+                        )
+                    },
+                    selected = false,
+                    showIndicator = false,
+                    onClick = {},
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun ChannelsListLoaded(
+    onChannelSelect: (Long) -> Unit,
+    onCategoryClick: (Long) -> Unit,
+    selectedChannelId: Long,
+    bannerUrl: String?,
+    boostLevel: Int,
+    guildName: String,
+    channels: Map<DomainChannel.Category?, List<DomainChannel>>,
+    collapsedCategories: List<Long>,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(
+        modifier = modifier,
+    ) {
+        item {
+            Box(
+                modifier = Modifier
+                    .fillParentMaxWidth()
+                    .height(IntrinsicSize.Min)
+            ) {
+                if (bannerUrl != null) {
+                    //设置工会banner
+                    AsyncImageLoader(
+                        modifier = Modifier
+                            .fillParentMaxWidth()
+                            .clip(MaterialTheme.shapes.large)
+                            .height(150.dp),
+                        url = bannerUrl,
+                        contentScale = ContentScale.Crop,
+                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .fillParentMaxWidth()
+                            .background(
+                                brush = Brush.verticalGradient(
+                                    colors = listOf(
+                                        Color.DarkGray,
+                                        Color.Transparent
+                                    ),
+                                ),
+                                alpha = 0.8f
+                            )
+                    )
+                }
+
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.TopStart)
+                        .padding(14.dp)
+                ) {
+                    val boostIcon = when (boostLevel to (bannerUrl != null)) {
+                        1 to false -> R.drawable.ic_guild_badge_premium_tier_1
+                        1 to true -> R.drawable.ic_guild_badge_premium_tier_1_banner
+                        2 to false -> R.drawable.ic_guild_badge_premium_tier_2
+                        2 to true -> R.drawable.ic_guild_badge_premium_tier_2_banner
+                        3 to false -> R.drawable.ic_guild_badge_premium_tier_3
+                        3 to true -> R.drawable.ic_guild_badge_premium_tier_3_banner
+                        else -> null
+                    }
+                    if (boostIcon != null) {
+                        Icon(
+                            painter = painterResource(id = boostIcon),
+                            contentDescription = stringResource(R.string.guild_boost_level),
+                            modifier = Modifier.size(20.dp),
+                            tint = Color.Unspecified,
+                        )
+                    }
+                    Text(
+                        text = guildName,
+                        fontWeight = FontWeight.SemiBold,
+                        style = MaterialTheme.typography.titleLarge.copy(
+                            shadow = Shadow(
+                                color = Color.Black,
+                                offset = Offset(0f, 5f),
+                                blurRadius = 3f,
+                            )
+                        ),
+                    )
+                }
+            }
+        }
+        for ((category, categoryChannels) in channels) {
+            //TODO put this in remember
+            val collapsed = collapsedCategories.contains(category?.id)
+
+            if (category != null) {
+                item {
+                    ProvideContentAlpha(ContentAlpha.medium) {
+                        val iconRotation by animateFloatAsState(
+                            targetValue = if (collapsed) -90f else 0f,
+                            animationSpec = spring(
+                                dampingRatio = Spring.DampingRatioMediumBouncy,
+                                stiffness = Spring.StiffnessLow
+                            )
+                        )
+                        WidgetCategory(
+                            modifier = Modifier.padding(
+                                top = 12.dp,
+                                bottom = 4.dp
+                            ),
+                            title = { Text(category.capsName) },
+                            icon = {
+                                Icon(
+                                    painter = painterResource(R.drawable.ic_keyboard_arrow_down),
+                                    contentDescription = stringResource(R.string.channels_collapse_category),
+                                    modifier = Modifier.rotate(iconRotation)
+                                )
+                            },
+                            onClick = {
+                                onCategoryClick(category.id)
+                            },
+                        )
+                    }
+                }
+            }
+
+            items(categoryChannels) { channel ->
+                if (!(channel.id != selectedChannelId && collapsed)) {
+                    when (channel) {
+                        is DomainChannel.TextChannel -> {
+                            WidgetChannelListItem(
+                                modifier = Modifier.padding(bottom = 2.dp),
+                                title = { Text(channel.name) },
+                                icon = {
+                                    Icon(
+                                        painter = painterResource(R.drawable.ic_tag),
+                                        contentDescription = null
+                                    )
+                                },
+                                selected = selectedChannelId == channel.id,
+                                showIndicator = selectedChannelId != channel.id,
+                                onClick = {
+                                    onChannelSelect(channel.id)
+                                },
+                            )
+                        }
+                        is DomainChannel.VoiceChannel -> {
+                            WidgetChannelListItem(
+                                modifier = Modifier.padding(bottom = 2.dp),
+                                title = { Text(channel.name) },
+                                icon = {
+                                    Icon(
+                                        painter = painterResource(R.drawable.ic_volume_up),
+                                        contentDescription = null
+                                    )
+                                },
+                                selected = false,
+                                showIndicator = false,
+                                onClick = { /*TODO*/ },
+                            )
+                        }
+                        else -> Unit
                     }
                 }
             }

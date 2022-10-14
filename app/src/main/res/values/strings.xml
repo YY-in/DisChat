@@ -36,6 +36,9 @@
     <string name="done">完成</string>
     <string name="settings_open">打开设置</string>
     <string name="guilds_home">家</string>
+    <string name="channel_unselected_message">请选择一个工会</string>
+    <string name="guild_boost_level">服务器水平提升</string>
+    <string name="channels_collapse_category">折叠频道目录</string>
 
 
 </resources>

@@ -1,6 +1,7 @@
 package com.yyin.dischat.ui.preview
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
@@ -11,6 +12,7 @@ import com.yyin.dischat.domain.model.DomainCustomStatus
 import com.yyin.dischat.domain.model.DomainGuild
 import com.yyin.dischat.domain.model.DomainPermission
 import com.yyin.dischat.domain.model.DomainUserStatus
+import com.yyin.dischat.ui.screen.home.ChannelsListLoading
 import com.yyin.dischat.ui.screen.home.CurrentUserItemLoaded
 import com.yyin.dischat.ui.screen.home.CurrentUserItemLoading
 import com.yyin.dischat.ui.screen.home.GuildsListLoaded
@@ -106,7 +108,7 @@ private fun GuildsListLoadedPreview() {
                     name = "Lucy fans",
                     iconUrl = null,
                     bannerUrl= "",
-                    permissions= listOf(DomainPermission.NONE),
+                    permissions=  listOf(DomainPermission.NONE),
                     premiumTier= 1,
                     premiumSubscriptionCount= 1
                 )
@@ -116,4 +118,11 @@ private fun GuildsListLoadedPreview() {
 
 }
 
-
+@Preview
+@Composable
+private fun ChannelsListLoadingPreview(){
+    Row(){
+        GuildsListLoadedPreview()
+        ChannelsListLoading()
+    }
+}
