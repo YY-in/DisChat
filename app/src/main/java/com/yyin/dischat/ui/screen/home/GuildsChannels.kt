@@ -55,7 +55,7 @@ fun GuildsChannelsScreen(
     onChannelSelect: () -> Unit,
     modifier: Modifier = Modifier,
     guildsViewModel: GuildsViewModel = getViewModel(),
-//    channelsViewModel: ChannelsViewModel = getViewModel(),
+    channelsViewModel: ChannelsViewModel = getViewModel(),
     currentUserViewModel: CurrentUserViewModel = getViewModel()
 ) {
     Column(
@@ -74,7 +74,13 @@ fun GuildsChannelsScreen(
                 viewModel = guildsViewModel
             )
             // 右侧频道列表
-//            ChannelsList()
+            ChannelsList(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .weight(1f),
+                onChannelSelect = onChannelSelect,
+                viewModel = channelsViewModel
+            )
         }
         // 底部用户信息
         CurrentUserItem(
@@ -167,6 +173,10 @@ private fun ChannelsList(
     modifier: Modifier = Modifier
 ) {
     val sortedChannels by remember(viewModel.channels) {
+        /**
+         * derivedStateOf的作用：
+         * 定义的对象状态依赖其他的对象状态时，需要使用derivedStateOf，当依赖对象状态发生改变，自己也可以跟着改变。
+         */
         derivedStateOf {
             viewModel.getSortedChannels()
         }
@@ -195,6 +205,7 @@ private fun ChannelsList(
                             onChannelSelect()
                         },
                         onCategoryClick = {
+                            // 折叠/展开频道分类
                             viewModel.toggleCategory(it)
                         },
                         bannerUrl = viewModel.guildBannerUrl,
@@ -310,7 +321,7 @@ fun CurrentUserItemLoaded(
 @Composable
 private fun GuildsListLoading(
     modifier: Modifier = Modifier,
- ) {
+) {
     val shimmer = rememberShimmer(shimmerBounds = ShimmerBounds.View)
     Column(
         modifier = modifier
@@ -540,7 +551,7 @@ fun ChannelsListLoading(
 }
 
 @Composable
-private fun ChannelsListLoaded(
+fun ChannelsListLoaded(
     onChannelSelect: (Long) -> Unit,
     onCategoryClick: (Long) -> Unit,
     selectedChannelId: Long,
