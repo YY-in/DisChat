@@ -72,7 +72,8 @@ private fun GuildsListLoadedPreview() {
     Column(modifier = Modifier.width(100.dp)) {
         GuildsListLoaded(
             onGuildSelect = {/*TODO Select Guild Event*/ },
-            selectedGuildId = 2,
+            //当前选择的工会ID
+            selectedGuildId = 3,
             guilds = listOf(
                 DomainGuild(
                     id = 1,
@@ -120,8 +121,6 @@ private fun GuildsListLoadedPreview() {
 @Composable
 private fun ChannelsListLoadingPreview() {
 
-    lateinit var viewModel: ChannelsViewModel
-
     Row() {
         GuildsListLoadedPreview()
         //ChannelsListLoading()
@@ -137,23 +136,115 @@ private fun ChannelsListLoadingPreview() {
             mapOf(
                 DomainChannel.Category(
                     id = 1,
-                    guildId = 1,
-                    name = "Category 1",
+                    guildId = 3,
+                    name = "INFO",
                     position = 1,
                     permissions = listOf(DomainPermission.NONE),
                 )
-
                         to listOf<DomainChannel>(
                     DomainChannel.TextChannel(
                         id = 1,
-                        guildId = 1,
-                        name = "Channel 1",
+                        guildId = 3,
+                        name = "rule",
+                        position = 1,
+                        permissions = listOf(DomainPermission.NONE),
+                        nsfw = false,
+                        parentId = null
+                    ),
+                    DomainChannel.TextChannel(
+                        id = 2,
+                        guildId = 3,
+                        name = "welcome",
                         position = 1,
                         permissions = listOf(DomainPermission.NONE),
                         nsfw = false,
                         parentId = null
                     )
+
+                ),
+                DomainChannel.Category(
+                    id = 2,
+                    guildId = 3,
+                    name = "GENERAL",
+                    position = 1,
+                    permissions = listOf(DomainPermission.NONE),
                 )
+                        to listOf<DomainChannel>(
+                    DomainChannel.TextChannel(
+                        id = 3,
+                        guildId = 3,
+                        name = "general",
+                        position = 1,
+                        permissions = listOf(DomainPermission.NONE),
+                        nsfw = false,
+                        parentId = null
+                    ),
+                    DomainChannel.TextChannel(
+                        id = 4,
+                        guildId = 3,
+                        name = "welcome",
+                        position = 1,
+                        permissions = listOf(DomainPermission.NONE),
+                        nsfw = false,
+                        parentId = 3L
+                    )
+
+                ),
+                DomainChannel.Category(
+                    id = 2,
+                    guildId = 3,
+                    name = "GENERAL",
+                    position = 1,
+                    permissions = listOf(DomainPermission.NONE),
+                )
+                        to listOf<DomainChannel>(
+                    DomainChannel.TextChannel(
+                        id = 3,
+                        guildId = 3,
+                        name = "general",
+                        position = 1,
+                        permissions = listOf(DomainPermission.NONE),
+                        nsfw = false,
+                        parentId = null
+                    ),
+                    DomainChannel.TextChannel(
+                        id = 4,
+                        guildId = 3,
+                        name = "welcome",
+                        position = 1,
+                        permissions = listOf(DomainPermission.NONE),
+                        nsfw = false,
+                        parentId = 3L
+                    )
+
+                ),
+                DomainChannel.Category(
+                    id = 3,
+                    guildId = 3,
+                    name = "VOICE CHANNELS",
+                    position = 1,
+                    permissions = listOf(DomainPermission.NONE),
+                )
+                        to listOf<DomainChannel>(
+                    DomainChannel.VoiceChannel(
+                        id = 5 ,
+                        guildId = 3,
+                        name = "emo topic",
+                        position = 1,
+                        permissions = listOf(DomainPermission.NONE),
+                        parentId = null
+                    ),
+                    DomainChannel.VoiceChannel(
+                        id = 6,
+                        guildId = 3,
+                        name = "cyber chat",
+                        position = 1,
+                        permissions = listOf(DomainPermission.NONE),
+                        parentId = 3L
+                    )
+
+                ),
+
             ),
             collapsedCategories = listOf(0L),
         )
