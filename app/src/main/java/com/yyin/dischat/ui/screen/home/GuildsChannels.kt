@@ -571,8 +571,8 @@ fun ChannelsListLoaded(
                     .fillParentMaxWidth()
                     .height(IntrinsicSize.Min)
             ) {
+                //设置工会banner
                 if (bannerUrl != null) {
-                    //设置工会banner
                     AsyncImageLoader(
                         modifier = Modifier
                             .fillParentMaxWidth()
@@ -636,6 +636,7 @@ fun ChannelsListLoaded(
                 }
             }
         }
+        //折叠动画
         for ((category, categoryChannels) in channels) {
             //TODO put this in remember
             val collapsed = collapsedCategories.contains(category?.id)
