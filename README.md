@@ -2,6 +2,21 @@
 
 一个Discord的 Jetpack Compose 的实现
 
+# 组件
+**网络组件**
+[Ktro](https://ktor.io/)
+Ktor 是一个使用强大的 Kotlin 语言在互联系统中构建异步服务器与客户端的框架。
+轻松创建微服务、多平台HTTP客户端应用程序。
+参考网站：[https://ktor.kotlincn.net/]
+
+**UI组件**
+[compose-shimmer](https://ktor.kotlincn.net/)
+一个提供Shimmer的Jetpack Compose库
+
+[coil](https://coil-kt.github.io/coil/)
+一个利用 kotin Corountines 实现的图片加载库
+
+
 # 主要界面设计
 
 界面设计基于Jetpack Compose 和 Material Design3的标准，融合了部分Material You 的组件

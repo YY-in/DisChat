@@ -70,6 +70,7 @@ fun GuildsChannelsScreen(
                 modifier = Modifier
                     .fillMaxHeight()
                     .width(72.dp),
+                //点击工会加载成员和频道
                 onGuildSelect = onGuildSelect,
                 viewModel = guildsViewModel
             )
@@ -78,6 +79,7 @@ fun GuildsChannelsScreen(
                 modifier = Modifier
                     .fillMaxHeight()
                     .weight(1f),
+                //点击频道加载聊天室
                 onChannelSelect = onChannelSelect,
                 viewModel = channelsViewModel
             )
