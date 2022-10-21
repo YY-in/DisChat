@@ -1,12 +1,16 @@
 package com.yyin.dischat.viewmodel
 
 import androidx.compose.runtime.*
+import androidx.lifecycle.viewModelScope
 import com.yyin.dischat.domain.manager.PersistentDataManager
 import com.yyin.dischat.domain.model.DomainChannel
+import com.yyin.dischat.domain.repository.DisChatApiRepository
 import com.yyin.dischat.util.getSortedChannels
+import kotlinx.coroutines.launch
 
 class ChannelsViewModel(
     persistentDataManager: PersistentDataManager,
+    private val repository : DisChatApiRepository
 ) : BasePersistenceViewModel(persistentDataManager) {
     sealed interface State {
         object Unselected : State
@@ -46,5 +50,19 @@ class ChannelsViewModel(
 
         if (!collapsedCategories.remove(categoryId))
             collapsedCategories.add(categoryId)
+    }
+    fun load(){
+        viewModelScope.launch {
+            try {
+                // 初始化加载loading
+                state = State.Loading
+                // 根据当前的channelId 获取相关的
+                val guildChannels = repository.getGuildChannels(persistentChannelId)
+
+            } catch (e:Exception){
+                state = State.Error
+                e.printStackTrace()
+            }
+        }
     }
 }

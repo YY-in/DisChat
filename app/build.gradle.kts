@@ -12,7 +12,7 @@ android {
     flavorDimensions.add("api")
 
     defaultConfig {
-        applicationId = "com.yyin.opencord"
+        applicationId = "com.yyin.dischat"
         minSdk = 21
         targetSdk = 33
         versionCode = 1
