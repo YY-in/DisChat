@@ -158,4 +158,5 @@ dependencies {
     Dependencies.Shimmer(this)
     Dependencies.Coil(this)
     Dependencies.ExoPlayer(this)
+    Dependencies.Cnd(this)
 }
