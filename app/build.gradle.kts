@@ -63,7 +63,7 @@ android {
             applicationIdSuffix = ".fosscord"
             versionNameSuffix = "-fosscord"
 
-            buildConfigField("String", "URL_API", "\"https://api.fosscord.com/api/v9\"")
+            buildConfigField("String", "URL_API", "\"http://192.168.3.209:8080\"")
             buildConfigField("String", "URL_CDN", "\"https://cdn.fosscord.com\"")
             buildConfigField(
                 "String",
@@ -158,5 +158,5 @@ dependencies {
     Dependencies.Shimmer(this)
     Dependencies.Coil(this)
     Dependencies.ExoPlayer(this)
-    Dependencies.Cnd(this)
+//    Dependencies.Cnd(this)
 }
