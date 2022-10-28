@@ -121,6 +121,20 @@ sealed class Dependencies {
             }
         }
     }
+    object Cnd : Dependencies() {
+        const val version = "1.1.2-beta"
+
+        const val cnd_core = "io.github.raamcosta.compose-destinations:core:$version"
+
+        const val cnd_ksp = "io.github.raamcosta.compose-destinations:kps:$version"
+
+        override fun invoke(scope: DependencyHandlerScope) {
+            scope {
+                implementation(cnd_core)
+                ksp(cnd_ksp)
+            }
+        }
+    }
 
     object Accompanist : Dependencies() {
         const val version = "0.25.1"

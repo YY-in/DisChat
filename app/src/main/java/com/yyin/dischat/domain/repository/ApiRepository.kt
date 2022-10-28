@@ -14,12 +14,9 @@ interface DisChatApiRepository {
 class DisChatApiRepositoryImpl(
     private val service: DisChatApiService
 ) : DisChatApiRepository {
-
     override suspend fun getGuildChannels(guildId: Long): Map<Long, DomainChannel> {
-        return service.getGuildChannels(guildId)
-            .toList().associate {
-                it.first.value to it.second.toDomain()
-            }
+        TODO("Not yet implemented")
     }
+
 
 }
