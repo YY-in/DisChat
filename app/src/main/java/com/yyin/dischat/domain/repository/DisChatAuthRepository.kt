@@ -1,8 +1,10 @@
 package com.yyin.dischat.domain.repository
 
 import android.content.SharedPreferences
+import android.util.Log
 import com.yyin.dischat.rest.body.auth.LoginBody
 import com.yyin.dischat.rest.body.auth.RegisterBody
+import com.yyin.dischat.rest.dto.ApiLogin
 import com.yyin.dischat.rest.service.DisChatAuthService
 import io.ktor.client.call.*
 import io.ktor.client.call.body as body
@@ -31,8 +33,9 @@ class DisChatAuthRepositoryImpl(
         val  response =  service.login(requestBody)
         return when (response.status.value) {
             200 -> {
-                val token = response.body<String>()
-                prefs.edit().putString("jwt",token).apply()
+                val tokenResponse:ApiLogin = response.body()
+                Log.i("test-token", tokenResponse.token.toString())
+                prefs.edit().putString("jwt", tokenResponse.token.toString()).apply()
                 AuthResult.Authorized()
             }
             400 -> {

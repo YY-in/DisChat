@@ -33,7 +33,7 @@ class UserManageViewModel(
     fun onEvent(event: UserManageEvent){
         when(event){
             is UserManageEvent.LoginAccountChange -> {
-                state = state.copy(loginAccount = event.value)
+                state = state.copy(loginEmail= event.value)
             }
             is UserManageEvent.LoginPasswordChange -> {
                 state = state.copy(loginPassword = event.value)
@@ -82,9 +82,9 @@ class UserManageViewModel(
             state  = state.copy(isLoading = true)
             val result = repository.login(
                 LoginBody(
-                    password = state.registerPassword,
-                    email = state.registerEmail,
-                    phone = state.registerPhone,
+                    password = state.loginPassword,
+                    email = state.loginEmail,
+                    phone = state.loginPhone,
                 )
             )
             resultChannel.send(result)

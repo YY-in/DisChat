@@ -48,7 +48,7 @@ android {
 
             isDefault = true
 
-            buildConfigField("String", "URL_API", "\"https://discord.com/api/v9\"")
+            buildConfigField("String", "URL_API", "\"http://192.168.3.209:8080\"")
             buildConfigField("String", "URL_CDN", "\"https://cdn.discordapp.com\"")
             buildConfigField(
                 "String",
