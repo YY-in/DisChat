@@ -101,7 +101,7 @@ fun LoginTextField(
     onClickForgetPW:() ->Unit,
     onAccountValueChange: (String) ->Unit,
     onPasswordValueChange: (String) ->Unit,
-    account:String,
+    account: String,
     password:String,
 ) {
     Column(

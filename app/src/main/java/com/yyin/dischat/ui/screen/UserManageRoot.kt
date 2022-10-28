@@ -71,7 +71,10 @@ fun UserManageRootScreen() {
                             navigator.navigate(UserManageScreen.ForgetPW)
                         },
                         onClickLogin = {
-//                            navigator.navigate(UserManageScreen.Home)
+                            navigator.navigate(UserManageScreen.ChangePW)
+                        },
+                        onAuthorized = {
+                            navigator.navigate(UserManageScreen.ChangePW)
                         }
                     )
 

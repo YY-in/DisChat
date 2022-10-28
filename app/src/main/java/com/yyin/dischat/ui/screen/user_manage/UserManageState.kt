@@ -3,7 +3,8 @@ package com.yyin.dischat.ui.screen.user_manage
 data class UserManageState(
     val isLoading : Boolean = false,
 
-    val loginAccount :String ="",
+    val loginEmail :String? = null,
+    val loginPhone:String? = null,
     val loginPassword :String ="",
 
     val registerEmail :String ="",
