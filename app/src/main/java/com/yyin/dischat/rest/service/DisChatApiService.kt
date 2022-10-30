@@ -2,10 +2,13 @@ package com.yyin.dischat.rest.service
 
 import com.yyin.dischat.BuildConfig
 import com.yyin.dischat.rest.dto.ApiChannel
+import com.yyin.dischat.rest.dto.ApiMeGuild
 import com.yyin.dischat.rest.dto.ApiSnowflake
+import com.yyin.dischat.rest.dto.ApiUploadToken
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -13,6 +16,7 @@ import kotlinx.coroutines.withContext
  * Service用于数据的请求、缓存
  */
 interface DisChatApiService {
+    suspend fun getMeGuilds(): List<ApiMeGuild>
     suspend fun getGuildChannels(guildId: Long): Map<ApiSnowflake, ApiChannel>
 }
 
@@ -20,7 +24,13 @@ class DisChatApiServiceImpl(
     private val client: HttpClient
 ) : DisChatApiService{
 
+
     private val cachedGuildChannels = mutableMapOf<Long, MutableMap<ApiSnowflake, ApiChannel>>()
+
+
+    override suspend fun getMeGuilds(): List<ApiMeGuild> {
+        TODO("Not yet implemented")
+    }
 
     override suspend fun getGuildChannels(guildId: Long): Map<ApiSnowflake, ApiChannel> {
         // 配置调度器，让其工作在IO线程

@@ -47,6 +47,9 @@ class UserManageViewModel(
             is UserManageEvent.RegisterPasswordChange -> {
                 state = state.copy(registerPassword = event.value)
             }
+            is UserManageEvent.RegisterAvatarChange -> {
+                state = state.copy(registerAvatarUrl = event.value)
+            }
 
 
             is UserManageEvent.Login -> {
@@ -55,7 +58,6 @@ class UserManageViewModel(
             is UserManageEvent.Register -> {
                 register()
             }
-
         }
     }
 

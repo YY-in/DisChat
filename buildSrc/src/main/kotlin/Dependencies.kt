@@ -180,10 +180,28 @@ sealed class Dependencies {
         const val coilBase = "io.coil-kt:coil:$version"
         const val coilCompose = "io.coil-kt:coil-compose:$version"
 
+
         override fun invoke(scope: DependencyHandlerScope) {
             scope {
                 implementation(coilBase)
                 implementation(coilCompose)
+            }
+        }
+    }
+
+    object Qiniu : Dependencies() {
+        const val qiniu_version = "8.4.0"
+        const val okhttp_version = "4.3.2"
+
+        const val qiniu = "com.qiniu:qiniu-android-sdk:$qiniu_version"
+        const val okhttp = "com.squareup.okhttp3:okhttp:$okhttp_version"
+        const val matisse = "com.github.leavesCZY:Matisse:0.0.7"
+
+        override fun invoke(scope: DependencyHandlerScope) {
+            scope {
+                implementation(qiniu)
+                implementation(okhttp)
+                implementation(matisse)
             }
         }
     }
