@@ -39,6 +39,10 @@
     <string name="channel_unselected_message">请选择一个工会</string>
     <string name="guild_boost_level">服务器水平提升</string>
     <string name="channels_collapse_category">折叠频道目录</string>
+    <string name="register_detail">注册详情</string>
+    <string name="select_username">填写您的用户名</string>
+    <string name="select_password">请填写您的密码</string>
+    <string name="create_account">创建一个账号</string>
 
 
 </resources>

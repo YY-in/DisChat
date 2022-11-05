@@ -1,4 +1,4 @@
-package com.yyin.dischat.ui.screen.user_manage
+package com.yyin.dischat.viewmodel
 
 data class UserManageState(
     val isLoading : Boolean = false,

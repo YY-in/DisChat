@@ -27,7 +27,7 @@ var pictureModule = module {
             if (info.isOK) {
                 Log.d("qiniu", "Upload Success")
                 val avatarUrl = "https://qiniu.yyin.top/$key"
-                viewModel.onEvent(UserManageEvent.LoginPasswordChange(avatarUrl))
+                viewModel.onEvent(UserManageEvent.RegisterAvatarChange(avatarUrl))
             } else {
                 Log.d("qiniu", "Upload Fail")
             }

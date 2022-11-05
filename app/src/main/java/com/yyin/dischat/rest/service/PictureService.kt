@@ -1,5 +1,6 @@
 package com.yyin.dischat.rest.service
 
+import android.net.Uri
 import com.qiniu.android.storage.UpCompletionHandler
 import com.qiniu.android.storage.UploadManager
 import com.yyin.dischat.BuildConfig
@@ -11,8 +12,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.InputStream
+import java.net.URI
 
 interface PictureService{
+    suspend fun uriToFile(uri: Uri):File?
     suspend fun uploadFile(file: File, filename: String)
     suspend  fun uploadFileStream(inputStream: InputStream, filename: String)
 }
@@ -37,7 +40,10 @@ class PictureServiceImpl(
          }catch (e: Exception){
              throw e
          }
+    }
 
+    override suspend fun uriToFile(uri: Uri) :File?{
+        return  File(URI(uri.toString()))
     }
 
 

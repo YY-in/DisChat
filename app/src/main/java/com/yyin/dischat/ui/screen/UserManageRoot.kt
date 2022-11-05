@@ -1,7 +1,5 @@
 package com.yyin.dischat.ui.screen
 
-import android.os.UserManager
-import android.util.Log
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -70,9 +68,6 @@ fun UserManageRootScreen() {
                         onClickForgetPW = {
                             navigator.navigate(UserManageScreen.ForgetPW)
                         },
-                        onClickLogin = {
-                            navigator.navigate(UserManageScreen.ChangePW)
-                        },
                         onAuthorized = {
                             navigator.navigate(UserManageScreen.ChangePW)
                         }
@@ -93,11 +88,27 @@ fun UserManageRootScreen() {
                     RegisterScreen(
                         onClickReturnLanding = {
                             navigator.navigate(UserManageScreen.Landing)
+                        },
+                        onClickNext = {
+                            navigator.navigate(UserManageScreen.RegisterDetail)
                         }
                     )
                 }
+                is UserManageScreen.RegisterDetail->{
+                    RegisterDetailScreen(
+                        onClickReturnLanding = {
+                            navigator.navigate(UserManageScreen.Register)
+                        },
+
+
+                    )
+
+                }
                 is UserManageScreen.ChangePW->{
                     ChangePWScreen()
+                }
+                is UserManageScreen.SelectAvatar->{
+
                 }
             }
         }

@@ -24,7 +24,6 @@ import org.koin.androidx.compose.getViewModel
 fun LoginScreen(
     onClickReturnLanding:() -> Unit,
     onClickForgetPW:() -> Unit,
-    onClickLogin:() -> Unit,
     onAuthorized: () -> Unit,
     viewModel: UserManageViewModel = getViewModel()
 ){
@@ -89,6 +88,7 @@ fun LoginScreen(
 
                 LoginButton(
                     onClickButton = {
+
                         viewModel.onEvent(UserManageEvent.Login)
                     }
                 )
