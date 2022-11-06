@@ -12,6 +12,7 @@ import io.ktor.client.call.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.koin.androidx.compose.getViewModel
 import org.koin.dsl.module
 
 var pictureModule = module {
@@ -20,21 +21,6 @@ var pictureModule = module {
         return UploadManager(Configuration.Builder().build())
     }
 
-    fun provideUpCompletionHandler(
-        viewModel: UserManageViewModel
-    ): UpCompletionHandler {
-        return UpCompletionHandler { key, info, response ->
-            if (info.isOK) {
-                Log.d("qiniu", "Upload Success")
-                val avatarUrl = "https://qiniu.yyin.top/$key"
-                viewModel.onEvent(UserManageEvent.RegisterAvatarChange(avatarUrl))
-            } else {
-                Log.d("qiniu", "Upload Fail")
-            }
-            Log.d("qiniu", key + ",\r\n " + info + ",\r\n " + response)
-        }
-    }
 
     single { provideUploaderManager() }
-    single { provideUpCompletionHandler(get()) }
 }
