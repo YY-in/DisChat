@@ -1,4 +1,4 @@
-package com.yyin.dischat.ui.screen.user_manage
+package com.yyin.dischat.viewmodel
 
 data class UserManageState(
     val isLoading : Boolean = false,
@@ -11,6 +11,6 @@ data class UserManageState(
     val registerPhone : String = "",
     val registerPassword : String = "",
     val registerUsername :  String = "",
-    val registerAvatarUrl : String = "",
+    val registerAvatarUrl : String = "https://qiniu.yyin.top/linux.png",
     val verified : Boolean = false
 )

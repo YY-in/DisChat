@@ -12,6 +12,7 @@ import com.yyin.dischat.ui.screen.UserManageRootScreen
 import com.yyin.dischat.ui.theme.DisChatTheme
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

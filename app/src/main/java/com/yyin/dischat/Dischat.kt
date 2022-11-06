@@ -1,10 +1,7 @@
 package com.yyin.dischat
 
 import android.app.Application
-import com.yyin.dischat.di.httpModule
-import com.yyin.dischat.di.repositoryModule
-import com.yyin.dischat.di.serviceModule
-import com.yyin.dischat.di.viewModelModule
+import com.yyin.dischat.di.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -18,7 +15,8 @@ class Dischat :Application(){
                 viewModelModule,
                 repositoryModule,
                 serviceModule,
-                httpModule
+                httpModule,
+                pictureModule
             )
         }
     }

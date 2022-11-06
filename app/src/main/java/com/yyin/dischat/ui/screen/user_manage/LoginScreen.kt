@@ -1,5 +1,6 @@
 package com.yyin.dischat.ui.screen.user_manage
 
+import android.view.Gravity
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -23,7 +24,6 @@ import org.koin.androidx.compose.getViewModel
 fun LoginScreen(
     onClickReturnLanding:() -> Unit,
     onClickForgetPW:() -> Unit,
-    onClickLogin:() -> Unit,
     onAuthorized: () -> Unit,
     viewModel: UserManageViewModel = getViewModel()
 ){
@@ -35,7 +35,10 @@ fun LoginScreen(
                     onAuthorized()
                 }
                 is AuthResult.UnAuthorized ->{
-
+                    Toast.makeText(context,"Welcome",Toast.LENGTH_SHORT).apply {
+                        setGravity(Gravity.CENTER,0,0)
+                        show()
+                    }
                 }
                 is AuthResult.UnKnowError ->  {
                     val toast= Toast.makeText(
@@ -85,9 +88,8 @@ fun LoginScreen(
 
                 LoginButton(
                     onClickButton = {
+
                         viewModel.onEvent(UserManageEvent.Login)
-
-
                     }
                 )
             }

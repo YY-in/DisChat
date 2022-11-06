@@ -20,7 +20,8 @@ import com.yyin.dischat.ui.theme.White
 
 @Composable
 fun RegisterScreen(
-    onClickReturnLanding : () -> Unit
+    onClickReturnLanding : () -> Unit,
+    onClickNext:() ->Unit
 ) {
     Scaffold(
         topBar = {
@@ -56,7 +57,7 @@ fun RegisterScreen(
                     SwitchBar()
                 }
                 Button(
-                    onClick = { /*TODO*/ },
+                    onClick = onClickNext,
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = Indigo700,
                         contentColor = White

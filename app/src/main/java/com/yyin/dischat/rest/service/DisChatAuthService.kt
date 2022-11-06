@@ -28,16 +28,20 @@ class DisChatAuthServiceImpl(
 
     override suspend fun register(body: RegisterBody): HttpResponse {
         val url =  getRegisterUrl()
-        return  client.post(url){
-            setBody(body)
+        return   withContext(Dispatchers.IO) {
+            client.post(url) {
+                setBody(body)
+            }
         }
     }
 
     override suspend fun authenticate(token: String) :  HttpResponse{
         var url = getAuthenticate()
-        return client.get(url){
-            headers{
-                append(HttpHeaders.AUTHORIZATION,token)
+        return  withContext(Dispatchers.IO) {
+            client.get(url){
+                headers{
+                    append(HttpHeaders.AUTHORIZATION,token)
+                 }
             }
         }
     }

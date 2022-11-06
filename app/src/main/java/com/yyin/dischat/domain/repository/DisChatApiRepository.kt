@@ -1,5 +1,6 @@
 package com.yyin.dischat.domain.repository
 
+import com.yyin.dischat.domain.mapper.toDomain
 import com.yyin.dischat.domain.model.DomainChannel
 import com.yyin.dischat.rest.service.DisChatApiService
 
@@ -14,6 +15,7 @@ interface DisChatApiRepository {
 class DisChatApiRepositoryImpl(
     private val service: DisChatApiService
 ) : DisChatApiRepository {
+
     override suspend fun getGuildChannels(guildId: Long): Map<Long, DomainChannel> {
         TODO("Not yet implemented")
     }
