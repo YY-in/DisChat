@@ -1,6 +1,7 @@
 package com.yyin.dischat.rest.service
 
 import android.net.Uri
+import android.util.Log
 import com.qiniu.android.storage.UpCompletionHandler
 import com.qiniu.android.storage.UploadManager
 import com.yyin.dischat.BuildConfig
@@ -14,19 +15,16 @@ import java.io.File
 import java.io.InputStream
 import java.net.URI
 
+
 interface PictureService{
-    suspend fun uriToFile(uri: Uri):File?
-    suspend fun uploadFile(file: File, filename: String)
-    suspend  fun uploadFileStream(inputStream: InputStream, filename: String)
+   suspend fun getUploadToken(): String
 }
 
 class PictureServiceImpl(
     private val client: HttpClient,
-    private val uploaderManager: UploadManager,
-    private val upCompletionHandler: UpCompletionHandler
 ) : PictureService {
 
-     private suspend fun getUploadToken(): String{
+     override suspend fun getUploadToken(): String{
          try{
              val url = getUploadTokenUrl()
              val api: ApiUploadToken =  withContext(Dispatchers.IO){
@@ -42,18 +40,6 @@ class PictureServiceImpl(
          }
     }
 
-    override suspend fun uriToFile(uri: Uri) :File?{
-        return  File(URI(uri.toString()))
-    }
-
-
-    override suspend fun uploadFile(file: File, filename: String) {
-        uploaderManager.put(file, filename, getUploadToken(), upCompletionHandler, null)
-    }
-
-    override suspend fun uploadFileStream(inputStream: InputStream, filename: String){
-        uploaderManager.put(inputStream,null,-1,filename,filename, getUploadToken(), upCompletionHandler, null)
-    }
 
 
     private companion object{

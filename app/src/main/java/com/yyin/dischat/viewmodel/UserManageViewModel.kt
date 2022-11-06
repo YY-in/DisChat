@@ -8,9 +8,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.exoplayer2.util.Log
+import com.qiniu.android.storage.UpCompletionHandler
 import com.yyin.dischat.Dischat
 import com.yyin.dischat.domain.repository.AuthResult
 import com.yyin.dischat.domain.repository.DisChatAuthRepository
+import com.yyin.dischat.domain.repository.PictureRepository
 import com.yyin.dischat.rest.body.auth.LoginBody
 import com.yyin.dischat.rest.body.auth.RegisterBody
 import com.yyin.dischat.gateway.event.UserManageEvent
@@ -21,7 +24,8 @@ import kotlinx.coroutines.launch
 
 class UserManageViewModel(
     application: Application,
-    private val repository: DisChatAuthRepository,
+    private val authRepository: DisChatAuthRepository,
+    private val pictureRepository: PictureRepository
 ) : AndroidViewModel(application){
 
     var imageUri by mutableStateOf<Uri?>(null)
@@ -37,6 +41,8 @@ class UserManageViewModel(
             )
         }
     }
+
+
 
     var errorLabel by mutableStateOf(false)
         private set
@@ -94,7 +100,7 @@ class UserManageViewModel(
     private fun register(){
         viewModelScope.launch {
             state  = state.copy(isLoading = true)
-            val result = repository.register(
+            val result = authRepository.register(
                 RegisterBody(
                     username = state.registerEmail,
                     password = state.registerPassword,
@@ -108,16 +114,32 @@ class UserManageViewModel(
             state = state.copy(isLoading = false)
         }
     }
+
     private fun  uploadImg(){
         viewModelScope.launch {
-
+            imageUri?.let { uri ->
+                pictureRepository.uploadImg(
+                    uri,
+                    //添加时间戳，防止图片重名
+                    state.registerUsername + System.currentTimeMillis()
+                ) { key, info, response ->
+                    if (info?.isOK == true) {
+                        Log.d("qiniu", "Upload Success")
+                        val avatarUrl = "https://qiniu.yyin.top/$key"
+                        onEvent(UserManageEvent.RegisterAvatarChange(avatarUrl))
+                    } else {
+                        Log.e("uploadImg", "uploadImg failed")
+                    }
+                    Log.d("qiniu", key + ",\r\n " + info + ",\r\n " + response)
+                }
+            }
         }
     }
 
     private fun login(){
         viewModelScope.launch {
             state  = state.copy(isLoading = true)
-            val result = repository.login(
+            val result = authRepository.login(
                 LoginBody(
                     password = state.loginPassword,
                     email = state.loginEmail,
@@ -131,7 +153,7 @@ class UserManageViewModel(
     private fun authenticate(){
         viewModelScope.launch {
             state  = state.copy(isLoading = true)
-            val result = repository.authenticate()
+            val result = authRepository.authenticate()
             resultChannel.send(result)
             state = state.copy(isLoading = false)
         }

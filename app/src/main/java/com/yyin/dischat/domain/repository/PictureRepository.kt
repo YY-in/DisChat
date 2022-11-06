@@ -1,32 +1,22 @@
 package com.yyin.dischat.domain.repository
 
+import android.net.Uri
+import com.qiniu.android.storage.UpCompletionHandler
+import com.qiniu.android.storage.UploadManager
 import com.yyin.dischat.rest.service.PictureService
-import java.io.File
-import java.io.InputStream
+
 
 interface PictureRepository {
-    suspend fun uploadFile(file: File, filename: String): String
-    suspend  fun uploadFileStream(inputStream: InputStream, filename: String): String
-    suspend  fun remove(key: String): String
+    suspend fun uploadImg(uri: Uri,key:String,upCompletionHandler: UpCompletionHandler)
 }
 
 class PictureRepositoryImpl(
-    private val service: PictureService
+    private val service: PictureService,
+    private val uploaderManager: UploadManager,
 ) : PictureRepository {
 
-    override suspend fun uploadFile(file: File, filename: String): String {
-        TODO("Not yet implemented")
+    override suspend fun uploadImg(uri: Uri,key:String,upCompletionHandler: UpCompletionHandler) {
+        uploaderManager.put(uri,null,key,service.getUploadToken(), upCompletionHandler,null)
     }
-
-    override suspend fun uploadFileStream(inputStream: InputStream, filename: String): String {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun remove(key: String): String {
-        TODO("Not yet implemented")
-    }
-
-
-
 
 }
