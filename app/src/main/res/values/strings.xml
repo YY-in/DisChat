@@ -43,6 +43,7 @@
     <string name="select_username">填写您的用户名</string>
     <string name="select_password">请填写您的密码</string>
     <string name="create_account">创建一个账号</string>
+    <string name="replay_code_30">30秒可重新发送验证码</string>
 
 
 </resources>

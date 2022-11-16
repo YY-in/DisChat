@@ -33,7 +33,7 @@ import androidx.compose.runtime.setValue
 
 @Composable
 fun LoginButton(
-    onClickButton:  () -> Unit
+    onClickButton:() -> Unit
 ) {
     Button(
         onClick = onClickButton,
@@ -98,6 +98,8 @@ fun MyTopBar(
 
 @Composable
 fun LoginTextField(
+    isAccountError:Boolean =false,
+    isPasswordError:Boolean =false,
     onClickForgetPW:() ->Unit,
     onAccountValueChange: (String) ->Unit,
     onPasswordValueChange: (String) ->Unit,
@@ -129,11 +131,13 @@ fun LoginTextField(
             },
             value = account,
             onValueChange = onAccountValueChange,
-            maxLines = 1,
+            isError = isAccountError,
             shape = RoundedCornerShape(10),
+            singleLine = true,
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = MaterialTheme.colors.surface,
                 textColor = LocalContentColor.current.copy(alpha = ContentAlpha.high),
+                errorIndicatorColor = MaterialTheme.colors.error,
             ),
             modifier = Modifier
                 .padding(bottom = 20.dp)
@@ -149,6 +153,7 @@ fun LoginTextField(
                     color = LocalContentColor.current.copy(alpha = ContentAlpha.medium)
                 )
             },
+            isError=isPasswordError,
             value = password,
             onValueChange = onPasswordValueChange,
             singleLine = true,
@@ -171,12 +176,14 @@ fun LoginTextField(
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor =  MaterialTheme.colors.surface,
                 textColor = LocalContentColor.current.copy(alpha = ContentAlpha.medium),
+                errorIndicatorColor = MaterialTheme.colors.error,
             ),
             modifier = Modifier
                 .padding(bottom = 20.dp)
                 .fillMaxWidth()
                 .height(50.dp),
         )
+
         Text(
             text = stringResource(R.string.forgetKey),
             style = MaterialTheme.typography.caption,

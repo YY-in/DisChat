@@ -4,25 +4,21 @@ import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.W500
 import androidx.compose.ui.unit.dp
-import com.yyin.dischat.R
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 
 @Composable
 fun RegisterTextField(
-    text: String,
+    placeholder: String,
+    value: String,
+    onValueChange: (String) -> Unit,
+    isError: Boolean,
     onClickCodeButton: () -> Unit
 ) {
     Column(
@@ -30,7 +26,7 @@ fun RegisterTextField(
             .fillMaxWidth()
     ) {
         Text(
-            text = text,
+            text = placeholder,
             style = MaterialTheme.typography.overline,
             fontWeight = W500,
             color = MaterialTheme.colors.onSurface,
@@ -39,28 +35,24 @@ fun RegisterTextField(
                 .padding(bottom = 10.dp, top = 20.dp)
         )
 
-        PhoneRegisterTextField(
-            text = text,
-            onClickCodeButton = onClickCodeButton
-        )
-
-
-        Text(
-            text = stringResource(R.string.privacy_policy),
-            style = MaterialTheme.typography.caption,
-            color = MaterialTheme.colors.onSurface,
-            modifier = Modifier
-                .alpha(ContentAlpha.high)
-                .padding(top = 10.dp)
+        BaseRegisterTextField(
+            value = value,
+            onValueChange = onValueChange,
+            isError = isError,
+            placeholder =  placeholder,
+            onClickCodeButton = onClickCodeButton,
         )
     }
 
 }
 
 @Composable
-fun PhoneRegisterTextField(
-    text: String,
-    onClickCodeButton: () -> Unit
+fun BaseRegisterTextField(
+    isError: Boolean = false,
+    placeholder: String,
+    value: String ,
+    onClickCodeButton: () -> Unit,
+    onValueChange: (String) -> Unit
 ) {
     var countryCode by remember {
         mutableStateOf("中国 +86")
@@ -70,13 +62,12 @@ fun PhoneRegisterTextField(
         mutableStateOf(true)
     }
 
-    if (text == stringResource(R.string.phone)){
+    if (placeholder == "电话号码"){
         expanded = true
-    }else if(text == stringResource(R.string.email)){
+    }else if(placeholder == "邮箱地址"){
         expanded = false
     }
 
-    var input by rememberSaveable { mutableStateOf("") }
 
     Row {
         AnimatedVisibility(
@@ -100,24 +91,22 @@ fun PhoneRegisterTextField(
             }
         }
         TextField(
-            placeholder= {Text(text=text)},
-            value = input,
-            onValueChange = {input = it},
+            isError = isError,
+            placeholder= {Text(text=placeholder)},
+            value = value,
+            onValueChange = onValueChange,
             maxLines = 1,
             shape = RoundedCornerShape(10),
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = MaterialTheme.colors.surface,
-                textColor =  LocalContentColor.current.copy(alpha = ContentAlpha.high)
+                textColor =  LocalContentColor.current.copy(alpha = ContentAlpha.high),
+                errorIndicatorColor = MaterialTheme.colors.error,
             ),
             modifier = Modifier
                 .height(50.dp)
                 .fillMaxWidth()
-
         )
-
-
     }
-
 }
 
 

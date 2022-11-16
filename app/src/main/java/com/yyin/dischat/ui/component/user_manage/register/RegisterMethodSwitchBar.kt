@@ -24,25 +24,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+enum class RegisterMethodScreen(
+    val text: String,
+) {
+    PhoneRegister(text = "电话号码"),
+    EmailRegister(text = "邮箱地址");
+}
 
-//@Preview
 @Composable
-fun SwitchBar() {
+fun SwitchBar(): String {
     val allScreens = RegisterMethodScreen.values().toList()
     var currentScreen by rememberSaveable {
         mutableStateOf(RegisterMethodScreen.PhoneRegister)
     }
-
-    Column(
-        modifier = Modifier.fillMaxWidth()
-    ) {
         RegisterMethodSwitchBar(
             allScreens = allScreens,
             onTabSelected = { screen -> currentScreen = screen },
             currentScreen = currentScreen
         )
-        currentScreen.content(onScreenChange = { screen -> currentScreen = screen })
-    }
+    return currentScreen.text
 
 }
 
@@ -54,8 +54,6 @@ fun RegisterMethodSwitchBar(
 ) {
     Surface(
         color= MaterialTheme.colors.background,
-        modifier = Modifier
-            .fillMaxWidth()
     ) {
         //将组件配置为可选择，通常作为互斥组的一部分，在任何时间点只能选择该组中的一项。
         Row(
@@ -103,7 +101,7 @@ fun RegisterMethodTab(
     Box(
        contentAlignment = Alignment.Center,
         modifier = Modifier
-            .width(180.dp)
+            .width(170.dp)
             .padding(2.dp)
             .animateContentSize()
             .selectable(

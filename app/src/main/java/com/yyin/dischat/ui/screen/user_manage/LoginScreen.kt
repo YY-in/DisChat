@@ -5,10 +5,10 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -53,6 +53,9 @@ fun LoginScreen(
     }
 
     val state = viewModel.state
+    var isAccountError by remember { mutableStateOf(false) }
+    var isPaswwordError by remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             MyTopBar(
@@ -75,7 +78,9 @@ fun LoginScreen(
                 LoginText()
 
                 LoginTextField(
-                    account = state.loginPhone?: state.loginEmail ?: "",
+                    isAccountError = isAccountError,
+                    isPasswordError = isPaswwordError,
+                    account = state.loginAccount,
                     password = state.loginPassword,
                     onClickForgetPW = onClickForgetPW,
                     onAccountValueChange = {
@@ -88,12 +93,15 @@ fun LoginScreen(
 
                 LoginButton(
                     onClickButton = {
-
-                        viewModel.onEvent(UserManageEvent.Login)
+                            isPaswwordError = !viewModel.passwordState
+                            isAccountError = !viewModel.accountState
+                        if(viewModel.accountState && viewModel.passwordState) {
+                            viewModel.onEvent(UserManageEvent.Login)
+                        }
                     }
                 )
             }
         }
     }
-}
 
+}

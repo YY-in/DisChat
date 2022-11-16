@@ -48,7 +48,7 @@ android {
 
             isDefault = true
 
-            buildConfigField("String", "URL_API", "\"http://192.168.3.209:8080\"")
+            buildConfigField("String", "URL_API", "\"http://127.0.0.1:8080\"")
             buildConfigField("String", "URL_CDN", "\"https://cdn.discordapp.com\"")
             buildConfigField(
                 "String",
@@ -63,7 +63,7 @@ android {
             applicationIdSuffix = ".fosscord"
             versionNameSuffix = "-fosscord"
 
-            buildConfigField("String", "URL_API", "\"http://192.168.3.209:8080\"")
+            buildConfigField("String", "URL_API", "\"http://127.0.0.1:8080\"")
             buildConfigField("String", "URL_CDN", "\"https://cdn.fosscord.com\"")
             buildConfigField(
                 "String",
