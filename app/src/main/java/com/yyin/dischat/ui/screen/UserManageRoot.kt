@@ -1,13 +1,9 @@
 package com.yyin.dischat.ui.screen
 
-import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.with
-import androidx.compose.material3.LocalAbsoluteTonalElevation
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.ui.unit.dp
 import com.yyin.dischat.ui.navigation.AppNavigation
 import com.yyin.dischat.ui.navigation.UserManageScreen
 import com.yyin.dischat.ui.navigation.rememberAppNavigatorBackstack
@@ -17,31 +13,10 @@ import com.yyin.dischat.ui.screen.user_manage.*
 fun UserManageRootScreen() {
     // 设置当前导航--> 一个界面名称的List
     val navigator = rememberAppNavigatorBackstack<UserManageScreen>(initial = UserManageScreen.Landing)
-    CompositionLocalProvider(LocalAbsoluteTonalElevation provides 1.dp) {
         AppNavigation(
             navigator = navigator,
             transitionSpec = {
-                when {
-                    UserManageScreen.Landing isTransitioningTo  UserManageScreen.Login -> {
-                        slideIntoContainer(
-                            towards = AnimatedContentScope.SlideDirection.Start,
-                            initialOffset = { it }
-                        ) with fadeOut() + slideOutOfContainer(
-                            towards = AnimatedContentScope.SlideDirection.Start,
-                            targetOffset = { it / 3 }
-                        )
-                    }
-                    UserManageScreen.Login isTransitioningTo UserManageScreen.Landing -> {
-                        fadeIn() + slideIntoContainer(
-                            towards = AnimatedContentScope.SlideDirection.End,
-                            initialOffset = { it / 3 }
-                        ) with slideOutOfContainer(
-                            towards = AnimatedContentScope.SlideDirection.End,
-                            targetOffset = { it }
-                        )
-                    }
-                    else -> fadeIn() with fadeOut()
-                }
+                fadeIn() with fadeOut()
             },
             backPressEnabled = true,
             onBackPress = { navigator.back() }
@@ -89,7 +64,7 @@ fun UserManageRootScreen() {
                         onClickReturnLanding = {
                             navigator.navigate(UserManageScreen.Landing)
                         },
-                        onClickNext = {
+                        onConfirm = {
                             navigator.navigate(UserManageScreen.RegisterDetail)
                         }
                     )
@@ -99,18 +74,11 @@ fun UserManageRootScreen() {
                         onClickReturnLanding = {
                             navigator.navigate(UserManageScreen.Register)
                         },
-
-
                     )
-
                 }
                 is UserManageScreen.ChangePW->{
                     ChangePWScreen()
                 }
-                is UserManageScreen.SelectAvatar->{
-
-                }
             }
         }
-    }
 }

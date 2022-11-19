@@ -1,4 +1,4 @@
-package com.yyin.dischat.viewmodel
+package com.yyin.dischat.gateway.event
 
 import com.yyin.dischat.gateway.event.UserManageEvent
 

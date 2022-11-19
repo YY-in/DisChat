@@ -52,7 +52,4 @@ sealed class UserManageScreen(route: String) : BaseNavigationScreen(route) {
     @Parcelize
     object ChangePW : UserManageScreen("changePW")
 
-    @Parcelize
-    object SelectAvatar : UserManageScreen("selectAvatar")
-
 }

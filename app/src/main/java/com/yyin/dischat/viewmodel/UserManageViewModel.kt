@@ -13,9 +13,11 @@ import com.yyin.dischat.Dischat
 import com.yyin.dischat.domain.repository.AuthResult
 import com.yyin.dischat.domain.repository.DisChatAuthRepository
 import com.yyin.dischat.domain.repository.PictureRepository
+import com.yyin.dischat.domain.repository.VerifyResult
 import com.yyin.dischat.rest.body.auth.LoginBody
 import com.yyin.dischat.rest.body.auth.RegisterBody
 import com.yyin.dischat.gateway.event.UserManageEvent
+import com.yyin.dischat.gateway.event.UserManageState
 import com.yyin.dischat.rest.body.auth.VerifyBody
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -55,7 +57,8 @@ class UserManageViewModel(
     private val resultChannel = Channel<AuthResult<Unit>>()
     val authResult = resultChannel.receiveAsFlow()
 
-
+    private val codeChannel = Channel<VerifyResult<Unit>>()
+    val codeResult = codeChannel.receiveAsFlow()
 
     // init block is used to initialize the state when the viewmodel is created\
     //  Warning: init block is called before the constructor，don‘t  move
@@ -106,7 +109,7 @@ class UserManageViewModel(
             }
             is UserManageEvent.RegisterCodeChange ->{
                 state = state.copy(registerCode = event.value)
-                //如果验证码长度为6位，就认为是正确的
+                //如果验证码长度为5位，就认为是正确的
                 codeState = event.value.length == 5
             }
 
@@ -148,6 +151,7 @@ class UserManageViewModel(
                     email=state.registerEmail
                 )
             )
+            codeChannel.send(result)
         }
     }
 

@@ -1,10 +1,8 @@
 package com.yyin.dischat.rest.service
 
 import com.yyin.dischat.BuildConfig
-import com.yyin.dischat.rest.dto.ApiChannel
-import com.yyin.dischat.rest.dto.ApiMeGuild
-import com.yyin.dischat.rest.dto.ApiSnowflake
-import com.yyin.dischat.rest.dto.ApiUploadToken
+import com.yyin.dischat.rest.body.MessageBody
+import com.yyin.dischat.rest.dto.*
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
@@ -17,7 +15,18 @@ import kotlinx.coroutines.withContext
  */
 interface DisChatApiService {
     suspend fun getMeGuilds(): List<ApiMeGuild>
+    suspend fun getGuild(guildId: Long): ApiGuild
     suspend fun getGuildChannels(guildId: Long): Map<ApiSnowflake, ApiChannel>
+
+    suspend fun getChannel(channelId: Long): ApiChannel
+    suspend fun getChannelMessages(channelId: Long): Map<ApiSnowflake, ApiMessage>
+    suspend fun getChannelPins(channelId: Long): Map<ApiSnowflake, ApiMessage>
+
+    suspend fun postChannelMessage(channelId: Long, body: MessageBody)
+
+    suspend fun getUserSettings(): ApiUserSettings
+
+    suspend fun startTyping(channelId: Long)
 }
 
 class DisChatApiServiceImpl(
@@ -25,11 +34,24 @@ class DisChatApiServiceImpl(
 ) : DisChatApiService{
 
 
+    private val cachedGuildById = mutableMapOf<Long, ApiGuild>()
     private val cachedGuildChannels = mutableMapOf<Long, MutableMap<ApiSnowflake, ApiChannel>>()
 
 
     override suspend fun getMeGuilds(): List<ApiMeGuild> {
         TODO("Not yet implemented")
+    }
+
+    override suspend fun getGuild(guildId: Long): ApiGuild {
+        return withContext(Dispatchers.IO) {
+            if (cachedGuildById[guildId] == null) {
+                val url = getGuildUrl(guildId)
+
+                val response: ApiGuild = client.get(url).body()
+                cachedGuildById[guildId] = response
+            }
+            cachedGuildById[guildId]!!
+        }
     }
 
     override suspend fun getGuildChannels(guildId: Long): Map<ApiSnowflake, ApiChannel> {
@@ -46,9 +68,34 @@ class DisChatApiServiceImpl(
         }
     }
 
+    override suspend fun getChannel(channelId: Long): ApiChannel {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getChannelMessages(channelId: Long): Map<ApiSnowflake, ApiMessage> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getChannelPins(channelId: Long): Map<ApiSnowflake, ApiMessage> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun postChannelMessage(channelId: Long, body: MessageBody) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getUserSettings(): ApiUserSettings {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun startTyping(channelId: Long) {
+        TODO("Not yet implemented")
+    }
+
     // 请求地址的获取
     private companion object {
-        const val BASE = BuildConfig.URL_API
+//        const val BASE = BuildConfig.URL_API
+        const val BASE = "http://192.168.43.101:8080"
 
         fun getGuildUrl(guildId: Long): String {
             return "$BASE/guilds/$guildId"
@@ -57,6 +104,15 @@ class DisChatApiServiceImpl(
         fun getGuildChannelsUrl(guildId: Long): String {
             val guildUrl = getGuildUrl(guildId)
             return "$guildUrl/channels"
+        }
+
+        fun getChannelUrl(channelId: Long): String {
+            return "$BASE/channels/$channelId"
+        }
+
+        fun getTypingUrl(channelId: Long): String {
+            val channelUrl = getChannelUrl(channelId)
+            return "$channelUrl/typing"
         }
     }
 }

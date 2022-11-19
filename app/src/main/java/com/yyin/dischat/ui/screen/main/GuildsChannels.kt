@@ -1,4 +1,4 @@
-package com.yyin.dischat.ui.screen.home
+package com.yyin.dischat.ui.screen.main
 
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState

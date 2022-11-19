@@ -36,17 +36,15 @@ fun LoginScreen(
                 }
                 is AuthResult.UnAuthorized ->{
                     Toast.makeText(context,"Welcome",Toast.LENGTH_SHORT).apply {
-                        setGravity(Gravity.CENTER,0,0)
+                        setGravity(Gravity.TOP,0,0)
                         show()
                     }
                 }
                 is AuthResult.UnKnowError ->  {
-                    val toast= Toast.makeText(
-                        context,
-                        "Sorry something wrong",
-                        Toast.LENGTH_LONG,
-                    )
-                    toast.show()
+                    Toast.makeText(context,"Sorry something wrong",Toast.LENGTH_SHORT).apply {
+                        setGravity(Gravity.TOP,0,0)
+                        show()
+                    }
                 }
             }
         }
