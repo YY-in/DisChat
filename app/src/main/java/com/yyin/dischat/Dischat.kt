@@ -16,7 +16,8 @@ class Dischat :Application(){
                 repositoryModule,
                 serviceModule,
                 httpModule,
-                pictureModule
+                pictureModule,
+                managerModule,
             )
         }
     }

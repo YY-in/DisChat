@@ -6,12 +6,13 @@ import androidx.compose.runtime.*
 import androidx.lifecycle.viewModelScope
 import com.yyin.dischat.domain.manager.PersistentDataManager
 import com.yyin.dischat.domain.model.DomainGuild
+import com.yyin.dischat.domain.repository.DisChatApiRepository
 import kotlinx.coroutines.launch
 
 class GuildsViewModel(
-//    gateway: DiscordGateway,
+//    gateway: DisChatGateway,
     persistentDataManager: PersistentDataManager,
-//    private val repository: DiscordApiRepository
+    private val repository: DisChatApiRepository
 ) : BasePersistenceViewModel(persistentDataManager) {
 
     sealed interface State {

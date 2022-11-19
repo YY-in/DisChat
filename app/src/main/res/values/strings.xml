@@ -44,6 +44,10 @@
     <string name="select_password">请填写您的密码</string>
     <string name="create_account">创建一个账号</string>
     <string name="replay_code_30">30秒可重新发送验证码</string>
+    <string name="pins_loading_error">当加载标记内容时发生错误</string>
+    <string name="pins_title">标记信息</string>
+    <string name="settings_title">设置</string>
+    <string name="verify_code">请输入5位验证码</string>
 
 
 </resources>

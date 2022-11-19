@@ -7,15 +7,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.yyin.dischat.domain.manager.PersistentDataManager
 import com.yyin.dischat.domain.model.DomainMessage
+import com.yyin.dischat.domain.repository.DisChatApiRepository
 import com.yyin.dischat.util.throttle
 import kotlinx.coroutines.launch
 
 class ChatViewModel(
+    persistentDataManager: PersistentDataManager,
+    private val repository: DisChatApiRepository
 
-):ViewModel(
-
-){
+):BasePersistenceViewModel(persistentDataManager){
     sealed interface State{
         object Unselected:State
         object Loading:State
@@ -39,7 +41,25 @@ class ChatViewModel(
 
     // throttle 阀门、节流阀
     val startTyping = throttle(9500, viewModelScope) {
-       // repository.startTyping(persistentChannelId)
+        repository.startTyping(persistentChannelId)
+    }
+
+
+    fun load() {
+        viewModelScope.launch {
+            try {
+                state = State.Loading
+                val channelMessages = repository.getChannelMessages(persistentChannelId)
+                val channel = repository.getChannel(persistentChannelId)
+                messages.clear()
+                messages.putAll(channelMessages)
+                channelName = channel.name
+                state = State.Loaded
+            } catch (e: Exception) {
+                state = State.Error
+                e.printStackTrace()
+            }
+        }
     }
 
     fun updateMessage(message: String) {
@@ -56,7 +76,7 @@ class ChatViewModel(
 //                channelId = persistentChannelId,
 //                MessageBody(
 //                    content = message
-////                )
+//               )
 //            )
             sendEnabled = true
         }

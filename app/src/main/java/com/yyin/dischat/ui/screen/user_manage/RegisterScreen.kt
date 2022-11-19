@@ -1,5 +1,6 @@
 package com.yyin.dischat.ui.screen.user_manage
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -9,12 +10,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.yyin.dischat.R
+import com.yyin.dischat.domain.repository.VerifyResult
 import com.yyin.dischat.gateway.event.UserManageEvent
 import com.yyin.dischat.ui.component.user_manage.login.MyTopBar
 import com.yyin.dischat.ui.component.user_manage.register.RegisterTextField
@@ -29,7 +32,7 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun RegisterScreen(
     onClickReturnLanding : () -> Unit,
-    onClickNext:() ->Unit,
+    onConfirm: () -> Unit,
     viewModel : UserManageViewModel = getViewModel(),
 ) {
     Scaffold(
@@ -98,6 +101,9 @@ fun RegisterScreen(
                     value = viewModel.state.registerCode,
                     onValueChange = {viewModel.onEvent(UserManageEvent.RegisterCodeChange(it))},
                     singleLine = true,
+                    placeholder = {
+                        Text(stringResource(R.string.verify_code))
+                    },
                     trailingIcon = {
                         IconButton(onClick={
                             isNotError = !viewModel.accountState
@@ -133,15 +139,33 @@ fun RegisterScreen(
                     modifier = Modifier
                         .align(Alignment.Start)
                         .alpha(ContentAlpha.high)
-                        .padding(top = 10.dp)
+                        .padding(bottom = 10.dp)
                 )
 
+                val context =LocalContext.current
+                LaunchedEffect(viewModel, context){
+                    viewModel.codeResult.collect{ result->
+                        when(result){
+                            is VerifyResult.UnKnowError -> {
+                                Toast.makeText(context,"Sorry something wrong",Toast.LENGTH_SHORT)
+                            }
+                            is VerifyResult.UnVerified -> {
+                                isCodeError = true
+                            }
+                            is VerifyResult.Verified -> {
+                                onConfirm()
+                            }
+                            is VerifyResult.WithoutAccount -> {
+                                isNotError =true
+                            }
+                        }
+                    }
+                }
                 Button(
                     onClick = {
                         isCodeError = !viewModel.codeState
                         if (!isCodeError&&!isNotError){
                             viewModel.onEvent(UserManageEvent.VerifyCode)
-                            onClickNext()
                         }
                     },
                     colors = ButtonDefaults.buttonColors(

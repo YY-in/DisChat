@@ -2,6 +2,7 @@ package com.yyin.dischat.domain.repository
 
 import android.content.SharedPreferences
 import android.util.Log
+import com.yyin.dischat.domain.manager.AccountManager
 import com.yyin.dischat.rest.body.auth.*
 import com.yyin.dischat.rest.dto.ApiLogin
 import com.yyin.dischat.rest.dto.BaseResponse
@@ -33,7 +34,7 @@ interface DisChatAuthRepository {
 
 class DisChatAuthRepositoryImpl(
     private val service : DisChatAuthService,
-    private val prefs :  SharedPreferences
+    private  val accountManager: AccountManager
 ): DisChatAuthRepository{
     override suspend fun login(requestBody: LoginBody): AuthResult<Unit>{
         val Tag = "Login"
@@ -44,7 +45,7 @@ class DisChatAuthRepositoryImpl(
                 return when (response.status.value) {
                     200 -> {
                         val tokenResponse:Response<ApiLogin> = response.body()
-                        prefs.edit().putString("jwt", tokenResponse.data.token.toString()).apply()
+                        accountManager.currentAccountToken =  tokenResponse.data.token.toString()
                         AuthResult.Authorized()
                     }
                     409 -> {
@@ -61,8 +62,8 @@ class DisChatAuthRepositoryImpl(
                 return when (response.status.value) {
                     200 -> {
                         val tokenResponse:Response<ApiLogin> = response.body()
-                        Log.i("test-token", tokenResponse.data.token.toString())
-                        prefs.edit().putString("jwt", tokenResponse.data.token.toString()).apply()
+                        Log.i(Tag, tokenResponse.data.token.toString())
+                        accountManager.currentAccountToken =tokenResponse.data.token.toString()
                         AuthResult.Authorized()
                     }
                     409 -> {
@@ -115,15 +116,15 @@ class DisChatAuthRepositoryImpl(
         Log.i(Tag,"Authenticate")
         /*TODO: 删除下面这一行*/
         Log.e(Tag,"删除对prefs的清空")
-        prefs.edit().putString("jwt", null).apply()
-        val token = prefs.getString("jwt",null) ?: return AuthResult.UnAuthorized()
+        accountManager.currentAccountToken = ""
+        val token = accountManager.currentAccountToken ?: return AuthResult.UnAuthorized()
         try {
             val  response =  service.authenticate("Bearer $token")
             return when (response.status.value) {
                 200 -> {
-                    val token:BaseResponse = response.body()
-                    prefs.edit().putString("jwt",token.message).apply()
-                    Log.i(Tag,"${token.message}")
+                    val response:BaseResponse = response.body()
+                    accountManager.currentAccountToken=response.message
+                    Log.i(Tag,"${response.message}")
                     Log.d(Tag,"Authenticate success")
                     AuthResult.Authorized()
                 }

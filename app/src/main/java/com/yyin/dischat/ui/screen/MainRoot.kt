@@ -10,7 +10,9 @@ import androidx.compose.ui.Modifier
 import com.yyin.dischat.ui.navigation.AppNavigation
 import com.yyin.dischat.ui.navigation.MainScreen
 import com.yyin.dischat.ui.navigation.rememberAppNavigatorBackstack
-import com.yyin.dischat.ui.screen.home.HomeScreen
+import com.yyin.dischat.ui.screen.main.ChannelPinsScreen
+import com.yyin.dischat.ui.screen.main.HomeScreen
+import com.yyin.dischat.ui.screen.main.Settings
 
 @Composable
 fun MainRootScreen() {
@@ -53,20 +55,20 @@ fun MainRootScreen() {
                 )
             }
             is MainScreen.Pins -> {
-//                ChannelPinsScreen(
-//                    modifier = Modifier.fillMaxSize(),
-//                    onBackClick = {
-//                        navigator.back()
-//                    }
-//                )
+                ChannelPinsScreen(
+                    modifier = Modifier.fillMaxSize(),
+                    onBackClick = {
+                        navigator.back()
+                    }
+                )
             }
             is MainScreen.Settings -> {
-//                Settings(
-//                    modifier = Modifier.fillMaxSize(),
-//                    onBackClick = {
-//                        navigator.back()
-//                    }
-//                )
+                Settings(
+                    modifier = Modifier.fillMaxSize(),
+                    onBackClick = {
+                        navigator.back()
+                    }
+                )
             }
         }
     }

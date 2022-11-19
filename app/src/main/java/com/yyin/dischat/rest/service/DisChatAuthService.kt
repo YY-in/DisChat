@@ -76,7 +76,7 @@ class DisChatAuthServiceImpl(
 
     private  companion object {
 //        const val BASE = BuildConfig.URL_API
-        const val BASE = "http://192.168.3.206:8080"
+        const val BASE = "http://192.168.43.101:8080"
         fun getLoginUrl():String{
             return "$BASE/users/login"
         }

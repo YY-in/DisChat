@@ -1,4 +1,4 @@
-package com.yyin.dischat.ui.screen.home
+package com.yyin.dischat.ui.screen.main
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
@@ -10,7 +10,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
-import androidx.compose.material.TopAppBar
 import androidx.compose.ui.Modifier
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -21,7 +20,6 @@ import com.yyin.dischat.R
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.valentinilk.shimmer.ShimmerBounds
 import com.valentinilk.shimmer.rememberShimmer
@@ -34,8 +32,6 @@ import com.yyin.dischat.util.ifComposable
 import com.yyin.dischat.util.ifNotEmptyComposable
 import com.yyin.dischat.util.ifNotNullComposable
 import com.yyin.dischat.viewmodel.ChatViewModel
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 import org.koin.androidx.compose.getViewModel
 
 
