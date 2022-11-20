@@ -34,12 +34,21 @@ class DisChatApiServiceImpl(
 ) : DisChatApiService{
 
 
+    private val cachedMeGuilds = mutableListOf<ApiMeGuild>()
     private val cachedGuildById = mutableMapOf<Long, ApiGuild>()
     private val cachedGuildChannels = mutableMapOf<Long, MutableMap<ApiSnowflake, ApiChannel>>()
+    private val cachedChannelMessages = mutableMapOf<Long, MutableMap<ApiSnowflake, ApiMessage>>()
 
 
     override suspend fun getMeGuilds(): List<ApiMeGuild> {
-        TODO("Not yet implemented")
+        return withContext(Dispatchers.IO) {
+            if (cachedMeGuilds.isEmpty()) {
+                val url = getMeGuildsUrl()
+                val response: List<ApiMeGuild> = client.get(url).body()
+                cachedMeGuilds.addAll(response)
+            }
+            cachedMeGuilds
+        }
     }
 
     override suspend fun getGuild(guildId: Long): ApiGuild {
@@ -81,7 +90,14 @@ class DisChatApiServiceImpl(
     }
 
     override suspend fun postChannelMessage(channelId: Long, body: MessageBody) {
-        TODO("Not yet implemented")
+        return withContext(Dispatchers.IO) {
+            if (cachedChannelMessages[channelId] == null) {
+                val url = getChannelMessagesUrl(channelId)
+                val response: List<ApiMessage> = client.get(url).body()
+                cachedChannelMessages[channelId] = response.associateBy { it.id }.toMutableMap()
+            }
+            cachedChannelMessages[channelId]!!
+        }
     }
 
     override suspend fun getUserSettings(): ApiUserSettings {
@@ -96,6 +112,10 @@ class DisChatApiServiceImpl(
     private companion object {
 //        const val BASE = BuildConfig.URL_API
         const val BASE = "http://192.168.43.101:8080"
+
+        fun getMeGuildsUrl(): String {
+            return "$BASE/users/guilds"
+        }
 
         fun getGuildUrl(guildId: Long): String {
             return "$BASE/guilds/$guildId"
@@ -113,6 +133,11 @@ class DisChatApiServiceImpl(
         fun getTypingUrl(channelId: Long): String {
             val channelUrl = getChannelUrl(channelId)
             return "$channelUrl/typing"
+        }
+
+        fun getChannelMessagesUrl(channelId: Long): String {
+            val channelUrl = getChannelUrl(channelId)
+            return "$channelUrl/messages"
         }
     }
 }

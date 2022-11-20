@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.yyin.dischat.domain.manager.PersistentDataManager
 import com.yyin.dischat.domain.model.DomainMessage
 import com.yyin.dischat.domain.repository.DisChatApiRepository
+import com.yyin.dischat.rest.body.MessageBody
 import com.yyin.dischat.util.throttle
 import kotlinx.coroutines.launch
 
@@ -25,7 +26,7 @@ class ChatViewModel(
         object Error:State
     }
     // 状态变量的存储
-    var state by mutableStateOf<State>(State.Unselected)
+    var state by mutableStateOf<State>(State.Loaded)
         private set
     // 消息的存储
     val messages = mutableStateMapOf<Long, DomainMessage>()
@@ -36,7 +37,7 @@ class ChatViewModel(
         private set
     var sendEnabled by mutableStateOf(true)
         private set
-    var currentUserId by mutableStateOf<Long?>(null)
+    var currentUserId by mutableStateOf<Long?>(1)
         private set
 
     // throttle 阀门、节流阀
@@ -72,12 +73,12 @@ class ChatViewModel(
             sendEnabled = false
             val message = userMessage
             userMessage = ""
-//            repository.postChannelMessage(
-//                channelId = persistentChannelId,
-//                MessageBody(
-//                    content = message
-//               )
-//            )
+            repository.postChannelMessage(
+                channelId = persistentChannelId,
+                MessageBody(
+                    content = message
+               )
+            )
             sendEnabled = true
         }
     }

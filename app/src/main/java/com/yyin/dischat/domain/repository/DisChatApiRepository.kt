@@ -9,6 +9,7 @@ import com.yyin.dischat.rest.service.DisChatApiService
  *  Repository用于将服务的数据进行包装成对象传递
  */
 interface DisChatApiRepository {
+    suspend fun getMeGuilds(): List<DomainMeGuild>
     suspend fun getGuild(guildId: Long): DomainGuild
     suspend fun getGuildChannels(guildId: Long): Map<Long, DomainChannel>
 
@@ -27,6 +28,10 @@ interface DisChatApiRepository {
 class DisChatApiRepositoryImpl(
     private val service: DisChatApiService
 ) : DisChatApiRepository {
+
+    override suspend fun getMeGuilds(): List<DomainMeGuild> {
+        return service.getMeGuilds().map { it.toDomain() }
+    }
 
 
     override suspend fun getGuild(guildId: Long): DomainGuild {

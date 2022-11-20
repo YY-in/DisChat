@@ -18,6 +18,9 @@ class Dischat :Application(){
                 httpModule,
                 pictureModule,
                 managerModule,
+                gatewayModule,
+                loggerModule,
+                providerModule
             )
         }
     }

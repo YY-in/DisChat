@@ -23,6 +23,7 @@ class GuildsViewModel(
 
     var state by mutableStateOf<State>(State.Loading)
         private set
+
     // map存储工会信息
     val guilds = mutableStateMapOf<Long, DomainGuild>()
 
@@ -33,7 +34,7 @@ class GuildsViewModel(
         viewModelScope.launch {
             try {
                 state = State.Loading
-//                val meGuilds = repository.getMeGuilds()
+                val meGuilds = repository.getMeGuilds()
 //                guilds.clear()
 //                guilds.addAll(meGuilds)
                 state = State.Loaded

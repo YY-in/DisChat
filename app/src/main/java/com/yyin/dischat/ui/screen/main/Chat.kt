@@ -57,7 +57,7 @@ fun ChatScreen(
             SmallTopAppBar(
                 title = { Text(stringResource(R.string.chat_title, viewModel.channelName)) },
                 navigationIcon = {
-                    IconButton({/*TODO onChannelButtonClick*/ }) {
+                    IconButton({onChannelsButtonClick }) {
                         Icon(
                             painter = painterResource(R.drawable.ic_menu),
                             contentDescription = null
@@ -65,13 +65,13 @@ fun ChatScreen(
                     }
                 },
                 actions = {
-                    IconButton({/*TODO onPinsButtonClick*/ }) {
+                    IconButton({onPinsButtonClick }) {
                         Icon(
                             painter = painterResource(R.drawable.ic_push_pin),
                             contentDescription = null
                         )
                     }
-                    IconButton({/*TODO onMembersButtonClick*/ }) {
+                    IconButton({onMembersButtonClick }) {
                         Icon(
                             painter = painterResource(R.drawable.ic_people),
                             contentDescription = null
@@ -334,7 +334,6 @@ private fun ChatScreenLoaded(
                                 && prevMessage.embeds.isEmpty()
                                 && !message.isReply
                                 && !prevMessage.isReply
-
                         WidgetChatMessage(
                             modifier = Modifier
                                 .fillMaxWidth()

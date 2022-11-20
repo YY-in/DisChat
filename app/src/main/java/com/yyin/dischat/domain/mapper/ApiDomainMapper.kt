@@ -193,7 +193,15 @@ fun ApiEmbedField.toDomain(): DomainEmbedField {
         value = value,
     )
 }
-
+fun ApiMeGuild.toDomain(): DomainMeGuild {
+    val iconUrl = icon?: " "
+    return DomainMeGuild(
+        id = id.value,
+        name = name,
+        iconUrl = iconUrl,
+        permissions = permissions.toDomain()
+    )
+}
 
 fun ApiGuild.toDomain(): DomainGuild {
     val iconUrl = icon?.let { icon ->
@@ -210,6 +218,30 @@ fun ApiGuild.toDomain(): DomainGuild {
         permissions = permissions.toDomain(),
         premiumTier = premiumTier,
         premiumSubscriptionCount = premiumSubscriptionCount ?: 0,
+    )
+}
+
+fun ApiGuildMember.toDomain(): DomainGuildMember {
+    val avatarUrl = user?.let { user ->
+        avatar?.let { avatar ->
+            "https://qiniu.yyin.top/20220709171954.png"
+        }
+    }
+    val domainUser = user?.toDomain()
+    return DomainGuildMember(
+        user = domainUser,
+        nick = nick,
+        avatarUrl = avatarUrl
+    )
+}
+
+fun ApiGuildMemberChunk.toDomain(): DomainGuildMemberChunk {
+    val domainMembers = members.map { it.toDomain() }
+    return DomainGuildMemberChunk(
+        guildId = guildId.value,
+        guildMembers = domainMembers,
+        chunkIndex = chunkIndex,
+        chunkCount = chunkCount,
     )
 }
 

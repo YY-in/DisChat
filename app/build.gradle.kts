@@ -140,6 +140,7 @@ dependencies {
     implementation(project(":simpleast-compose"))
     implementation(project(":overlapping-panels-compose"))
     implementation(project(":partialgen"))
+    implementation("androidx.room:room-common:2.4.2")
     ksp(project(":partialgen"))
 
     implementation(project(":enumgetter"))

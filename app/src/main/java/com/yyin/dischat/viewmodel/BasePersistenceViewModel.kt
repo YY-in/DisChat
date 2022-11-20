@@ -1,6 +1,7 @@
 package com.yyin.dischat.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.room.Entity
 import com.yyin.dischat.domain.manager.PersistentDataManager
 
 abstract class BasePersistenceViewModel(
@@ -34,3 +35,4 @@ abstract class BasePersistenceViewModel(
         persistentDataManager.removeCollapsedCategory(id)
     }
 }
+

@@ -69,7 +69,7 @@ enum class ApiMessageType(val value: Int) {
 
         override fun deserialize(decoder: Decoder): ApiMessageType {
             /*TODO*/
-//            return fromValue(decoder.decodeInt()) ?: Default
+            return fromValue(decoder.decodeInt()) ?: Default
             return Default
         }
 

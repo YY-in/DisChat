@@ -68,9 +68,33 @@ val viewModelModule = module {
             cache = cache,
         )
     }
+    fun provideMembersViewModel(
+        persistentDataManager: PersistentDataManager,
+        gateway: DisChatGateway,
+        repository: DisChatApiRepository
+    ): MembersViewModel {
+        return MembersViewModel(
+            gateway = gateway,
+            persistentDataManager = persistentDataManager,
+            repository = repository
+        )
+    }
+
+    fun provideChannelPinsViewModel(
+        persistentDataManager: PersistentDataManager,
+        repository: DisChatApiRepository
+    ): ChannelPinsViewModel {
+        return ChannelPinsViewModel(
+            persistentDataManager = persistentDataManager,
+            repository = repository
+        )
+    }
 
     viewModelOf(::provideUserManageViewModel)
     viewModelOf(::provideChannelsViewModel)
     viewModelOf(::provideChatViewModel)
     viewModelOf(::provideGuildsViewModel)
+    viewModelOf(::provideCurrentUserViewModel)
+    viewModelOf(::provideMembersViewModel)
+    viewModelOf(::provideChannelPinsViewModel)
 }
