@@ -1,5 +1,6 @@
 package com.yyin.dischat.viewmodel
 
+import android.util.Log
 import androidx.compose.runtime.*
 import androidx.lifecycle.viewModelScope
 import com.yyin.dischat.domain.manager.PersistentDataManager
@@ -27,7 +28,7 @@ class ChannelsViewModel(
         object Error : State
     }
 
-    var state by mutableStateOf<State>(State.Unselected)
+    var state by mutableStateOf<State>(State.Loading)
         private set
 
     val channels = mutableStateMapOf<Long, DomainChannel>()
@@ -45,6 +46,7 @@ class ChannelsViewModel(
         viewModelScope.launch {
             try {
                 state = State.Loading
+                Log.i("Guilds","当前保存的persistentGuildId：$persistentGuildId")
                 val guildChannels = repository.getGuildChannels(persistentGuildId)
                 val guild = repository.getGuild(persistentGuildId)
                 channels.clear()

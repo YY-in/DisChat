@@ -46,7 +46,7 @@ fun HomeScreen(
                     //点击工会加载成员和频道
                     onGuildSelect = {
                         channelsViewModel.load()
-                        membersViewModel.load()
+//                        membersViewModel.load()
                     },
                     guildsViewModel = guildsViewModel,
                     currentUserViewModel = currentUserViewModel,

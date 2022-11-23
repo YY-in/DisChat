@@ -1,5 +1,9 @@
 package com.yyin.dischat.domain.repository
 
+import com.yyin.dischat.data.getChannelById
+import com.yyin.dischat.data.getChannelsMap
+import com.yyin.dischat.data.getGuildById
+import com.yyin.dischat.data.getGuildsMap
 import com.yyin.dischat.domain.mapper.toDomain
 import com.yyin.dischat.domain.model.*
 import com.yyin.dischat.rest.body.MessageBody
@@ -9,7 +13,7 @@ import com.yyin.dischat.rest.service.DisChatApiService
  *  Repository用于将服务的数据进行包装成对象传递
  */
 interface DisChatApiRepository {
-    suspend fun getMeGuilds(): List<DomainMeGuild>
+    suspend fun getMeGuilds(): Map<Long, DomainGuild>
     suspend fun getGuild(guildId: Long): DomainGuild
     suspend fun getGuildChannels(guildId: Long): Map<Long, DomainChannel>
 
@@ -29,20 +33,23 @@ class DisChatApiRepositoryImpl(
     private val service: DisChatApiService
 ) : DisChatApiRepository {
 
-    override suspend fun getMeGuilds(): List<DomainMeGuild> {
-        return service.getMeGuilds().map { it.toDomain() }
+    //获取当前用户的所有guilds的部分信息
+    override suspend fun getMeGuilds(): Map<Long, DomainGuild>{
+//        return service.getMeGuilds().map { it.toDomain() }
+        return getGuildsMap()
     }
-
-
+    //根据id，获取对应的guild
     override suspend fun getGuild(guildId: Long): DomainGuild {
-        return service.getGuild(guildId).toDomain()
+//        return service.getGuild(guildId).toDomain()
+        return getGuildById(guildId)
     }
-
+    //根据id，获取对应的channel
     override suspend fun getGuildChannels(guildId: Long): Map<Long, DomainChannel> {
-        return service.getGuildChannels(guildId)
-            .toList().associate {
-                it.first.value to it.second.toDomain()
-            }
+//        return service.getGuildChannels(guildId)
+//            .toList().associate {
+//                it.first.value to it.second.toDomain()
+//            }
+        return getChannelsMap()
     }
 
     override suspend fun getChannel(channelId: Long): DomainChannel {

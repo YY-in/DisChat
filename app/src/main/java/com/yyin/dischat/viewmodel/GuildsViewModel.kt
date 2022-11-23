@@ -1,16 +1,21 @@
 package com.yyin.dischat.viewmodel
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+
 import androidx.compose.runtime.*
 import androidx.lifecycle.viewModelScope
 import com.yyin.dischat.domain.manager.PersistentDataManager
+import com.yyin.dischat.domain.mapper.toDomain
 import com.yyin.dischat.domain.model.DomainGuild
+import com.yyin.dischat.domain.model.makeFakeInfo
 import com.yyin.dischat.domain.repository.DisChatApiRepository
+import com.yyin.dischat.gateway.DisChatGateway
+import com.yyin.dischat.gateway.event.GuildCreateEvent
+import com.yyin.dischat.gateway.event.ReadyEvent
+import com.yyin.dischat.gateway.onEvent
 import kotlinx.coroutines.launch
 
 class GuildsViewModel(
-//    gateway: DisChatGateway,
+    gateway: DisChatGateway,
     persistentDataManager: PersistentDataManager,
     private val repository: DisChatApiRepository
 ) : BasePersistenceViewModel(persistentDataManager) {
@@ -21,7 +26,7 @@ class GuildsViewModel(
         object Error : State
     }
 
-    var state by mutableStateOf<State>(State.Loading)
+    var state by mutableStateOf<State>(State.Loaded)
         private set
 
     // map存储工会信息
@@ -35,8 +40,8 @@ class GuildsViewModel(
             try {
                 state = State.Loading
                 val meGuilds = repository.getMeGuilds()
-//                guilds.clear()
-//                guilds.addAll(meGuilds)
+                guilds.clear()
+                guilds.putAll(meGuilds)
                 state = State.Loaded
             } catch (e: Exception) {
                 state = State.Error
@@ -53,17 +58,17 @@ class GuildsViewModel(
     init {
         load()
 
-//        gateway.onEvent<ReadyEvent> { event ->
-//            event.data.guilds.forEach {
-//                val domainGuild = it.toDomain()
-//                guilds[domainGuild.id] = domainGuild
-//            }
-//        }
-//
-//        gateway.onEvent<GuildCreateEvent> {
-//            val domainGuild = it.data.toDomain()
-//            guilds[domainGuild.id] = domainGuild
-//        }
+        gateway.onEvent<ReadyEvent> { event ->
+            event.data.guilds.forEach {
+                val domainGuild = it.toDomain()
+                guilds[domainGuild.id] = domainGuild
+            }
+        }
+
+        gateway.onEvent<GuildCreateEvent> {
+            val domainGuild = it.data.toDomain()
+            guilds[domainGuild.id] = domainGuild
+        }
 
         if (persistentGuildId != 0L) {
             selectedGuildId = persistentGuildId

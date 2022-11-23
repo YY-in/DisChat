@@ -1,5 +1,6 @@
 package com.yyin.dischat.ui.screen.main
 
+import android.util.Log
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
@@ -113,6 +114,7 @@ private fun GuildsList(
                 modifier = modifier,
                 onGuildSelect = {
                     viewModel.selectGuild(it)
+                    Log.i("Guilds","选择的GuildsID:$it")
                     onGuildSelect()
                 },
                 guilds = viewModel.guilds.values.toList(),
@@ -120,7 +122,7 @@ private fun GuildsList(
             )
         }
         GuildsViewModel.State.Error -> {
-
+            GuildsListLoading(modifier = modifier)
         }
     }
 }
@@ -159,7 +161,9 @@ private fun CurrentUserItem(
                 )
             }
             CurrentUserViewModel.State.Error -> {
-
+                CurrentUserItemLoading(
+                    onSettingsClick = onSettingsClick
+                )
             }
         }
     }
@@ -219,7 +223,9 @@ private fun ChannelsList(
                     )
                 }
                 is ChannelsViewModel.State.Error -> {
-
+                    ChannelsListLoading(
+                        modifier = Modifier.fillMaxSize()
+                    )
                 }
             }
         }
